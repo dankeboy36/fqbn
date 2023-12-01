@@ -10,24 +10,8 @@ module.exports = {
     '@semantic-release/release-notes-generator',
     '@semantic-release/changelog',
     '@semantic-release/npm',
-    [
-      '@semantic-release/github',
-      {
-        assets: [
-          {
-            path: '*.vsix',
-          },
-        ],
-      },
-    ],
+    '@semantic-release/github',
     '@semantic-release/git',
-    [
-      'semantic-release-vsce',
-      {
-        packageVsix: true,
-        publish: true,
-      },
-    ],
     [
       '@semantic-release/exec',
       {

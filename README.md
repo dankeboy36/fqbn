@@ -1,51 +1,74 @@
-# ESP Exception Decoder
+# fqbn
 
-[![Tests](https://github.com/dankeboy36/esp-exception-decoder/actions/workflows/build.yml/badge.svg)](https://github.com/dankeboy36/esp-exception-decoder/actions/workflows/build.yml)
+Arduino FQBN (fully qualified board name)
 
-> ⚠️ This project is in an early state.
+## Install
 
-[Arduino IDE](https://github.com/arduino/arduino-ide/) extension lets you get a more meaningful explanation of the stack traces and backtraces you get on ESP8266/ESP32. This extension is the reimplementation of the famous [ESP8266/ESP32 Exception Stack Trace Decoder](https://github.com/me-no-dev/EspExceptionDecoder) tool, written in Java.
-
-![ESP8266/ESP32 Exception Decoder Extension](./images/espExceptionDecoder_main.png)
-
-> ⚠️ This extension has nothing to do with the [Visual Studio Code extension for Arduino](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.vscode-arduino). This extension does not work in VS Code.
-
-## Installation
-
-- Download the latest extension from the GitHub [release page](https://github.com/dankeboy36/esp-exception-decoder/releases/latest). The asset filename is `esp-exception-decoder-${VERSION}.vsix`, where `${VERSION}` is the latest version.
-- When the Arduino IDE is not running, copy the downloaded extension into the folder named `plugins` folder under Arduino IDE's configuration folder. If the `plugins` folder does not exist, create it.
-  - On Windows, it's under `C:\Users\<username>\.arduinoIDE\plugins` where `<username>` is your Windows username.
-  - On Linux and macOS, it's under `~/.arduinoIDE/plugins`.
-    > ℹ️ If you get stuck, follow the [_Installation_](https://github.com/arduino/arduino-ide/blob/main/docs/advanced-usage.md#installation) section of the documentation of the Arduino IDE _3rd party themes_. The procedure is the same.
+```sh
+npm i fqbn
+```
 
 ## Usage
 
-- Open a sketch in the Arduino IDE and verify it.
-- Upload the sketch to an ESP8266/ESP32 board.
-- Open the _Serial Monitor_ view and monitor the output for exceptions.
-- When you get an exception, open the _Exception Decoder_ terminal:
-  - Open the _Command Palette_ with <kbd>Ctrl/⌘</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>,
-  - Type `ESP Exception Decoder: Show Decoder Terminal` and
-  - Press <kbd>Enter</kbd>.
-- Copy the exception stack trace/backtrace from the _Serial Monitor_ view.
-- Paste the stack trace/backtrace to the _Exception Decoder_ terminal.
-  > ℹ️ See more on copy and paste in the terminal [here](https://code.visualstudio.com/docs/terminal/basics#_copy-paste).
+```js
+// valid
+assert.ok(valid('arduino:samd:mkr1000'));
+assert.ok(valid('arduino:samd:mkr1000:o1=v1'));
+assert.strictEqual(valid('arduino:invalid'), undefined);
 
-![ESP Exception Decoder in Action](./images/espExceptionDecoder_main.gif)
+const fqbn = new FQBN('arduino:samd:mkr1000');
+assert.strictEqual(fqbn.vendor, 'arduino');
+assert.strictEqual(fqbn.arch, 'samd');
+assert.strictEqual(fqbn.boardId, 'mkr1000');
+assert.strictEqual(fqbn.options, undefined);
 
-### Hints
+// withConfigOptions (add)
+const fqbn2 = fqbn.withConfigOptions({
+  option: 'o1',
+  optionLabel: 'O1',
+  values: [
+    { value: 'v1', valueLabel: 'V1', selected: true },
+    { value: 'v2', valueLabel: 'V2', selected: false },
+  ],
+});
+assert.strictEqual(fqbn2.vendor, 'arduino');
+assert.strictEqual(fqbn2.arch, 'samd');
+assert.strictEqual(fqbn2.boardId, 'mkr1000');
+assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 
-1.  You can enable blinking cursors in the decoder terminal with the [`"terminal.integrated.cursorBlinking": true`](https://code.visualstudio.com/docs/terminal/appearance#_terminal-cursor) setting.
-1.  The `"terminal.enablePaste": true` setting enables pasting to the decoder terminal with the keyboard.
-1.  You can tune the terminal font size with the setting [`"terminal.integrated.fontSize": 12`](https://code.visualstudio.com/docs/terminal/appearance#_text-style).
+// withConfigOptions (add + update)
+const fqbn3 = fqbn2.withConfigOptions(
+  {
+    option: 'o1',
+    optionLabel: 'O1',
+    values: [
+      { value: 'v1', valueLabel: 'V1', selected: false },
+      { value: 'v2', valueLabel: 'V2', selected: true },
+    ],
+  },
+  {
+    option: 'o2',
+    optionLabel: 'O2',
+    values: [
+      { value: 'w1', valueLabel: 'W1', selected: true },
+      { value: 'w2', valueLabel: 'W2', selected: false },
+    ],
+  }
+);
+assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'w1' });
 
-    > ℹ️ Reference the [_Advanced settings_](https://github.com/arduino/arduino-ide/blob/main/docs/advanced-usage.md#advanced-settings) documentation of the Arduino IDE for more details.
+// toString
+assert.strictEqual(fqbn.toString(), 'arduino:samd:mkr1000');
+assert.strictEqual(fqbn2.toString(), 'arduino:samd:mkr1000:o1=v1');
+assert.strictEqual(fqbn3.toString(), 'arduino:samd:mkr1000:o1=v2,o2=w1');
+assert.strictEqual(fqbn3.toString(true), 'arduino:samd:mkr1000');
 
-    > ⚠️ Customizing the terminal colors with the [`workbench.colorCustomizations`](https://code.visualstudio.com/docs/terminal/appearance#_terminal-colors) setting is yet to be supported by Eclipse Theia ([eclipse-theia/theia#8060](https://github.com/eclipse-theia/theia/issues/8060)). Hence, this feature is missing from the Arduino IDE.
+// sanitize
+assert.strictEqual(fqbn3.sanitize().toString(), 'arduino:samd:mkr1000');
 
-    > ⚠️ Arduino IDE has to support the path links that contain spaces in the decoder terminal. ([eclipse-theia/theia#12643](https://github.com/eclipse-theia/theia/issues/12643))
-
-    > ⚠️ [`terminal.integrated.rightClickBehavior`](https://code.visualstudio.com/docs/terminal/basics#_rightclick-behavior) is unsupported in Arduino IDE. ([eclipse-theia/theia#12644](https://github.com/eclipse-theia/theia/issues/12644))
+// equals
+assert.ok(new FQBN('a:b:c:o1=v1,o2=v2').equals(new FQBN('a:b:c:o2=v2,o1=v1')));
+```
 
 ## Development
 
@@ -55,31 +78,14 @@
    npm i
    ```
 
-   > ⚠️ You need Node.js `>=16.14.0`.
-
-1. Build the extension
+1. Build
 
    ```sh
-   npm run compile
+   npm run build
    ```
 
-   > ℹ️ Execute `npm run package` if you want to bundle the VSIX for production.
-
-1. Test the extension
+1. Test
 
    ```sh
-   npm run test
+   npm test
    ```
-
-   > ℹ️ You can run the _slow_ test with the `npm run test-slow` and all the tests with the `npm run test-all` command.
-
-## Hints
-
-- If you use VS Code for development, you can use the predefined _Launch Configurations_ to debug the extensions and the tests. See how to [test VS Code extensions](https://code.visualstudio.com/api/working-with-extensions/testing-extension).
-- This extension uses the [`vscode-arduino-api`](https://github.com/dankeboy36/vscode-arduino-api/) to communicate with the Arduino IDE.
-- This extension was built from the [`helloworld`](https://code.visualstudio.com/api/get-started/your-first-extension) VS Code extension template.
-
-## Acknowledgments
-
-- [@per1234](https://github.com/per1234) for his tireless contribution to open source.
-- [@me-no-dev](https://github.com/me-no-dev) for the [original implementation](https://github.com/me-no-dev/EspExceptionDecoder).
