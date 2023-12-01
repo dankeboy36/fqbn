@@ -1,5 +1,2 @@
-out
 dist
-.vscode-test
-test-resources
-CHANGELOG.md
+.nyc_output
