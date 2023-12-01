@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "fqbn",
   "version": "1.0.0",
   "description": "Arduino FQBN (fully qualified board name)",
