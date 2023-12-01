@@ -319,6 +319,9 @@ describe('fqbn', () => {
     assert.strictEqual(fqbn2.boardId, 'mkr1000');
     assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 
+    // immutable
+    assert.strictEqual(fqbn.options, undefined);
+
     // withConfigOptions (add + update)
     const fqbn3 = fqbn2.withConfigOptions(
       {
