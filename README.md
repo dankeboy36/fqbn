@@ -72,12 +72,6 @@ assert.ok(new FQBN('a:b:c:o1=v1,o2=v2').equals(new FQBN('a:b:c:o2=v2,o1=v1')));
 
 ## Development
 
-1. Install the dependencies
-
-   ```sh
-   npm i
-   ```
-
 1. Build
 
    ```sh
