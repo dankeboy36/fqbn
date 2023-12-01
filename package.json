@@ -1,6 +1,6 @@
 {
   "name": "fqbn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Arduino FQBN (fully qualified board name)",
   "license": "MIT",
   "author": "dankeboy36",
