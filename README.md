@@ -2,13 +2,21 @@
 
 Arduino FQBN (fully qualified board name)
 
+```
+VENDOR:ARCHITECTURE:BOARD_ID[:MENU_ID=OPTION_ID[,MENU2_ID=OPTION_ID ...]]
+```
+
+> ℹ️ [What's the FQBN string?](https://arduino.github.io/arduino-cli/latest/FAQ/#whats-the-fqbn-string)
+
+> ℹ️ Check the `{build.fqbn}` entry in the Arduino [Platform specification](https://arduino.github.io/arduino-cli/latest/platform-specification/#global-predefined-properties) for more details.
+
 ## Install
 
 ```sh
-npm i fqbn
+npm install fqbn
 ```
 
-## Usage
+## API
 
 CommonJS:
 
@@ -96,5 +104,9 @@ assert.ok(new FQBN('a:b:c:o1=v1,o2=v2').equals(new FQBN('a:b:c:o2=v2,o1=v1')));
 1. Test
 
    ```sh
-   npm test
+   npm run test
    ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
