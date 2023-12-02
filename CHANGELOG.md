@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/dankeboy36/fqbn/compare/1.0.2...1.0.3) (2023-12-02)
+
+
+### Bug Fixes
+
+* **doc:** update public readme ([#7](https://github.com/dankeboy36/fqbn/issues/7)) ([3cf5efd](https://github.com/dankeboy36/fqbn/commit/3cf5efd23825f2ff073b7a394ce4349bb9234b90))
+
 ## [1.0.2](https://github.com/dankeboy36/fqbn/compare/1.0.1...1.0.2) (2023-12-02)
 
 
