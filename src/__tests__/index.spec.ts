@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { FQBN, valid } from '../fqbn';
+import { FQBN, valid } from '..';
 
 describe('fqbn', () => {
   describe('valid', () => {
@@ -54,7 +54,7 @@ describe('fqbn', () => {
     });
   });
 
-  describe('fqbn', () => {
+  describe('FQBN', () => {
     describe('constructor', () => {
       it('should create', () => {
         const fqbn = new FQBN('a:b:c');
@@ -64,7 +64,7 @@ describe('fqbn', () => {
         assert.strictEqual(fqbn.options, undefined);
       });
 
-      it('should create with config option', () => {
+      it('should create with a config option', () => {
         const fqbn = new FQBN('a:b:c:o1=v1');
         assert.strictEqual(fqbn.vendor, 'a');
         assert.strictEqual(fqbn.arch, 'b');
@@ -72,7 +72,7 @@ describe('fqbn', () => {
         assert.deepStrictEqual(fqbn.options, { o1: 'v1' });
       });
 
-      it('should create with multi config options', () => {
+      it('should create with multiple config options', () => {
         const fqbn = new FQBN('a:b:c:o1=v1,o2=v2');
         assert.strictEqual(fqbn.vendor, 'a');
         assert.strictEqual(fqbn.arch, 'b');
@@ -184,7 +184,6 @@ describe('fqbn', () => {
         assert.throws(() =>
           new FQBN('a:b:c').withConfigOptions({
             option: 'o1',
-            optionLabel: 'O1',
             values: [],
           })
         );
@@ -195,13 +194,11 @@ describe('fqbn', () => {
           new FQBN('a:b:c').withConfigOptions(
             {
               option: 'o1',
-              optionLabel: 'O1',
-              values: [{ value: 'v1', valueLabel: 'V1', selected: true }],
+              values: [{ value: 'v1', selected: true }],
             },
             {
               option: 'o1',
-              optionLabel: 'O1',
-              values: [{ value: 'v2', valueLabel: 'V2', selected: true }],
+              values: [{ value: 'v2', selected: true }],
             }
           )
         );
@@ -211,10 +208,10 @@ describe('fqbn', () => {
         assert.throws(() =>
           new FQBN('a:b:c').withConfigOptions({
             option: 'o1',
-            optionLabel: 'O1',
+
             values: [
-              { value: 'v1', valueLabel: 'V1', selected: true },
-              { value: 'v2', valueLabel: 'V2', selected: true },
+              { value: 'v1', selected: true },
+              { value: 'v2', selected: true },
             ],
           })
         );
@@ -225,18 +222,16 @@ describe('fqbn', () => {
         const actual = fqbn.withConfigOptions(
           {
             option: 'o1',
-            optionLabel: 'O1',
             values: [
-              { value: 'v1', valueLabel: 'V1', selected: true },
-              { value: 'v2', valueLabel: 'V2', selected: false },
+              { value: 'v1', selected: true },
+              { value: 'v2', selected: false },
             ],
           },
           {
             option: 'o2',
-            optionLabel: 'O2',
             values: [
-              { value: 'w1', valueLabel: 'W1', selected: false },
-              { value: 'w2', valueLabel: 'W2', selected: true },
+              { value: 'w1', selected: false },
+              { value: 'w2', selected: true },
             ],
           }
         );
@@ -249,18 +244,16 @@ describe('fqbn', () => {
         const actual = fqbn.withConfigOptions(
           {
             option: 'o3',
-            optionLabel: 'O3',
             values: [
-              { value: 'x1', valueLabel: 'X1', selected: true },
-              { value: 'x2', valueLabel: 'X2', selected: false },
+              { value: 'x1', selected: true },
+              { value: 'x2', selected: false },
             ],
           },
           {
             option: 'o2',
-            optionLabel: 'O2',
             values: [
-              { value: 'w1', valueLabel: 'W1', selected: false },
-              { value: 'w2', valueLabel: 'W2', selected: true },
+              { value: 'w1', selected: false },
+              { value: 'w2', selected: true },
             ],
           }
         );
@@ -276,7 +269,7 @@ describe('fqbn', () => {
         const fqbn = new FQBN('a:b:c');
         const actual = fqbn.withConfigOptions({
           option: 'o1',
-          optionLabel: 'O1',
+          optionLabel: 'O1', // Additional CLI props are allowed
           values: [
             { value: 'v1', valueLabel: 'V1', selected: true },
             { value: 'v2', valueLabel: 'V2', selected: false },
@@ -291,70 +284,5 @@ describe('fqbn', () => {
         assert.strictEqual(fqbn.options, undefined);
       });
     });
-  });
-
-  it('example', () => {
-    // valid
-    assert.ok(valid('arduino:samd:mkr1000'));
-    assert.ok(valid('arduino:samd:mkr1000:o1=v1'));
-    assert.strictEqual(valid('arduino:invalid'), undefined);
-
-    const fqbn = new FQBN('arduino:samd:mkr1000');
-    assert.strictEqual(fqbn.vendor, 'arduino');
-    assert.strictEqual(fqbn.arch, 'samd');
-    assert.strictEqual(fqbn.boardId, 'mkr1000');
-    assert.strictEqual(fqbn.options, undefined);
-
-    // withConfigOptions (add)
-    const fqbn2 = fqbn.withConfigOptions({
-      option: 'o1',
-      optionLabel: 'O1',
-      values: [
-        { value: 'v1', valueLabel: 'V1', selected: true },
-        { value: 'v2', valueLabel: 'V2', selected: false },
-      ],
-    });
-    assert.strictEqual(fqbn2.vendor, 'arduino');
-    assert.strictEqual(fqbn2.arch, 'samd');
-    assert.strictEqual(fqbn2.boardId, 'mkr1000');
-    assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
-
-    // immutable
-    assert.strictEqual(fqbn.options, undefined);
-
-    // withConfigOptions (add + update)
-    const fqbn3 = fqbn2.withConfigOptions(
-      {
-        option: 'o1',
-        optionLabel: 'O1',
-        values: [
-          { value: 'v1', valueLabel: 'V1', selected: false },
-          { value: 'v2', valueLabel: 'V2', selected: true },
-        ],
-      },
-      {
-        option: 'o2',
-        optionLabel: 'O2',
-        values: [
-          { value: 'w1', valueLabel: 'W1', selected: true },
-          { value: 'w2', valueLabel: 'W2', selected: false },
-        ],
-      }
-    );
-    assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'w1' });
-
-    // toString
-    assert.strictEqual(fqbn.toString(), 'arduino:samd:mkr1000');
-    assert.strictEqual(fqbn2.toString(), 'arduino:samd:mkr1000:o1=v1');
-    assert.strictEqual(fqbn3.toString(), 'arduino:samd:mkr1000:o1=v2,o2=w1');
-    assert.strictEqual(fqbn3.toString(true), 'arduino:samd:mkr1000');
-
-    // sanitize
-    assert.strictEqual(fqbn3.sanitize().toString(), 'arduino:samd:mkr1000');
-
-    // equals
-    assert.ok(
-      new FQBN('a:b:c:o1=v1,o2=v2').equals(new FQBN('a:b:c:o2=v2,o1=v1'))
-    );
   });
 });

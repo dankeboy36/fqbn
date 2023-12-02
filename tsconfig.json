@@ -11,6 +11,7 @@
     "strict": true,
     "strictNullChecks": true,
     "noImplicitOverride": true,
-    "resolveJsonModule": true
+    "declaration": true,
+    "declarationMap": true
   }
 }
