@@ -1,28 +1,6 @@
-# fqbn
+import assert from 'node:assert/strict';
+import { FQBN, valid } from '../index';
 
-Arduino FQBN (fully qualified board name)
-
-## Install
-
-```sh
-npm i fqbn
-```
-
-## Usage
-
-CommonJS:
-
-```js
-const { FQBN, valid } = require('fqbn');
-```
-
-TypeScript:
-
-```ts
-import { FQBN, valid } from 'fqbn';
-```
-
-```js
 // valid
 assert.ok(valid('arduino:samd:mkr1000'));
 assert.strictEqual(
@@ -83,18 +61,3 @@ assert.strictEqual(fqbn3.sanitize().toString(), 'arduino:samd:mkr1000');
 
 // equals
 assert.ok(new FQBN('a:b:c:o1=v1,o2=v2').equals(new FQBN('a:b:c:o2=v2,o1=v1')));
-```
-
-## Development
-
-1. Build
-
-   ```sh
-   npm run build
-   ```
-
-1. Test
-
-   ```sh
-   npm test
-   ```

@@ -25,6 +25,7 @@
     "test": "nyc mocha",
     "watch": "tsc -p ./ -w"
   },
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "ardunno-cli": "^0.1.7",
     "clone": "^2.1.2",
