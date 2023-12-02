@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/dankeboy36/fqbn/compare/1.0.1...1.0.2) (2023-12-02)
+
+
+### Bug Fixes
+
+* missing typing info ([#6](https://github.com/dankeboy36/fqbn/issues/6)) ([fd8d9bd](https://github.com/dankeboy36/fqbn/commit/fd8d9bdc495ae824f72fc4b1ebeb4284b091d6a1))
+
 ## [1.0.1](https://github.com/dankeboy36/fqbn/compare/1.0.0...1.0.1) (2023-12-01)
 
 
