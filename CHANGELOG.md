@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/dankeboy36/fqbn/compare/1.0.3...1.0.4) (2024-02-10)
+
+
+### Bug Fixes
+
+* align implementation with most recent specs ([#9](https://github.com/dankeboy36/fqbn/issues/9)) ([c62036f](https://github.com/dankeboy36/fqbn/commit/c62036f3b27dafde2b51cd5216a49550ab91bc44)), closes [arduino/arduino-cli#2460](https://github.com/arduino/arduino-cli/issues/2460) [arduino/arduino-cli#2509](https://github.com/arduino/arduino-cli/issues/2509) [dankeboy36/fqbn#8](https://github.com/dankeboy36/fqbn/issues/8)
+
 ## [1.0.3](https://github.com/dankeboy36/fqbn/compare/1.0.2...1.0.3) (2023-12-02)
 
 
