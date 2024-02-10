@@ -26,8 +26,17 @@ export class FQBN {
   readonly options?: Readonly<ConfigOptions>;
 
   constructor(fqbn: string) {
-    const [vendor, arch, boardId, rest] = fqbn.split(':');
-    if (!vendor || !arch || !boardId) {
+    const fqbnSegments = fqbn.split(':');
+    if (fqbnSegments.length < 3 || fqbnSegments.length > 4) {
+      throw new InvalidFQBNError(fqbn);
+    }
+    for (let i = 0; i < 3; i++) {
+      if (!/^[a-zA-Z0-9_.-]*$/.test(fqbnSegments[i])) {
+        throw new InvalidFQBNError(fqbn);
+      }
+    }
+    const [vendor, arch, boardId, rest] = fqbnSegments;
+    if (!boardId) {
       throw new InvalidFQBNError(fqbn);
     }
 
@@ -35,11 +44,24 @@ export class FQBN {
     if (typeof rest === 'string') {
       const tuples = rest.split(',');
       for (const tuple of tuples) {
-        const [key, value, unexpected] = tuple.split('=');
-        if (!key || !value || typeof unexpected === 'string') {
+        const configSegments = tuple.split('=', 2);
+        if (configSegments.length !== 2) {
           throw new ConfigOptionError(
             fqbn,
-            `Invalid config option syntax: '${tuple}'`
+            `Invalid config option: '${tuple}'`
+          );
+        }
+        const [key, value] = configSegments;
+        if (!/^[a-zA-Z0-9_.-]+$/.test(key)) {
+          throw new ConfigOptionError(
+            fqbn,
+            `Invalid config option key: '${key}' (${tuple})`
+          );
+        }
+        if (!/^[a-zA-Z0-9=_.-]*$/.test(value)) {
+          throw new ConfigOptionError(
+            fqbn,
+            `Invalid config option value: '${value}' (${tuple})`
           );
         }
         const existingValue = options[key];

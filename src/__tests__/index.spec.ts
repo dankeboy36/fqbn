@@ -11,15 +11,35 @@ describe('fqbn', () => {
       assert.ok(valid('a:b:c:o1=v1'));
     });
 
+    it('should be OK with config option value is empty', () => {
+      assert.ok(valid('a:b:c:o1='));
+    });
+
     it('should be OK with multiple config options', () => {
       assert.ok(valid('a:b:c:o1=v1,o2=v2'));
+    });
+
+    it("should be OK with multiple equal ('=') signs in the value part", () => {
+      assert.ok(valid('a:b:c:o1=v1='));
+    });
+
+    it('should be OK with empty vendor', () => {
+      assert.ok(valid(':avr:uno'));
+    });
+
+    it('should be OK with empty arch', () => {
+      assert.ok(valid('arduino::uno'));
+    });
+
+    it('should be OK with empty vendor and arch', () => {
+      assert.ok(valid('::uno'));
     });
 
     it('should fail when invalid', () => {
       assert.strictEqual(valid('invalid'), undefined);
     });
 
-    it('should fail when has trailing comma', () => {
+    it('should fail when config key value is empty', () => {
       assert.strictEqual(valid('a:b:c:'), undefined);
     });
 
@@ -32,11 +52,19 @@ describe('fqbn', () => {
     });
 
     it('should fail when invalid config options syntax', () => {
-      assert.strictEqual(valid('a:b:c:o1=v1='), undefined);
+      assert.strictEqual(valid('a:b:c:o1=v1*'), undefined);
     });
 
     it('should fail when contains duplicate config options', () => {
       assert.strictEqual(valid('a:b:c:o1=v1,o1=v2'), undefined);
+    });
+
+    it('should fail when has trailing comma (no config options)', () => {
+      assert.strictEqual(valid('a:b:c,'), undefined);
+    });
+
+    it('should fail when has trailing comma (with config options)', () => {
+      assert.strictEqual(valid('a:b:c:o1=v1,'), undefined);
     });
 
     it('should fail when config options has trailing comma', () => {
@@ -45,6 +73,10 @@ describe('fqbn', () => {
 
     it('should fail when config options is empty', () => {
       assert.strictEqual(valid('a:b:c:o1=v1,,o2=v2'), undefined);
+    });
+
+    it('should fail when config option key is empty', () => {
+      assert.strictEqual(valid('a:b:c:=v1'), undefined);
     });
 
     it('should rethrow unhandled errors', () => {
@@ -63,6 +95,22 @@ describe('fqbn', () => {
         assert.strictEqual(fqbn.boardId, 'c');
         assert.strictEqual(fqbn.options, undefined);
       });
+
+      [
+        'ardui_no:av_r:un_o',
+        'arduin.o:av.r:un.o',
+        'arduin-o:av-r:un-o',
+        'arduin-o:av-r:un-o:a=b=c=d',
+      ].map((fqbn) =>
+        it(`should create: ${fqbn}`, () =>
+          assert.doesNotThrow(() => new FQBN(fqbn)))
+      );
+
+      ['arduin-o:av-r:un=o', 'arduin?o:av-r:uno', 'arduino:av*r:uno'].map(
+        (fqbn) =>
+          it(`should not create: ${fqbn}`, () =>
+            assert.throws(() => new FQBN(fqbn)))
+      );
 
       it('should create with a config option', () => {
         const fqbn = new FQBN('a:b:c:o1=v1');
@@ -88,7 +136,7 @@ describe('fqbn', () => {
       });
 
       it('should error when invalid config options syntax', () => {
-        assert.throws(() => new FQBN('a:b:c:o1='), /ConfigOptionError: .*/);
+        assert.throws(() => new FQBN('a:b:c:=v1'), /ConfigOptionError: .*/);
       });
 
       it('should error when has duplicate config options', () => {
