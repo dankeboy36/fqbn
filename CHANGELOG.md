@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/dankeboy36/fqbn/compare/1.0.4...1.0.5) (2024-02-10)
+
+
+### Bug Fixes
+
+* **security:** update dependencies ([#10](https://github.com/dankeboy36/fqbn/issues/10)) ([77aa744](https://github.com/dankeboy36/fqbn/commit/77aa7448071a86419426291763ac647de48e6058))
+
 ## [1.0.4](https://github.com/dankeboy36/fqbn/compare/1.0.3...1.0.4) (2024-02-10)
 
 
