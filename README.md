@@ -45,9 +45,7 @@ fqbn
 ### Type Aliases
 
 - [ConfigOption](#configoption)
-- [ConfigOptions](#configoptions)
 - [ConfigValue](#configvalue)
-- [Optional](#optional)
 
 ### Functions
 
@@ -57,42 +55,33 @@ fqbn
 
 ### ConfigOption
 
-Ƭ **ConfigOption**: [`Optional`](#optional)\<`Omit`\<`ApiConfigOption`, `"values"`\>, `"optionLabel"`\> & \{ `values`: [`ConfigValue`](#configvalue)[] }
+Ƭ **ConfigOption**: `Object`
 
 Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
 
----
+#### Type declaration
 
-### ConfigOptions
-
-Ƭ **ConfigOptions**: `Record`\<`string`, `string`\>
-
-An object of custom board config options and the selected values.
+| Name           | Type                                     | Description                                                             |
+| :------------- | :--------------------------------------- | :---------------------------------------------------------------------- |
+| `option`       | `string`                                 | ID of the configuration option. For identifying the option to machines. |
+| `optionLabel?` | `string`                                 | Name of the configuration option for identifying the option to humans.  |
+| `values`       | readonly [`ConfigValue`](#configvalue)[] | Possible values of the configuration option.                            |
 
 ---
 
 ### ConfigValue
 
-Ƭ **ConfigValue**: [`Optional`](#optional)\<`ApiConfigValue`, `"valueLabel"`\>
+Ƭ **ConfigValue**: `Object`
 
 The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
 
----
+#### Type declaration
 
-### Optional
-
-Ƭ **Optional**\<`T`, `K`\>: `Pick`\<`Partial`\<`T`\>, `K`\> & `Omit`\<`T`, `K`\>
-
-From `T`, make properties those in type `K` optional.
-
-Original source: https://stackoverflow.com/a/61108377/5529090
-
-#### Type parameters
-
-| Name | Type              |
-| :--- | :---------------- |
-| `T`  | `T`               |
-| `K`  | extends keyof `T` |
+| Name          | Type      | Description                                           |
+| :------------ | :-------- | :---------------------------------------------------- |
+| `selected`    | `boolean` | Whether the configuration option is selected.         |
+| `value`       | `string`  | The configuration option value.                       |
+| `valueLabel?` | `string`  | Label to identify the configuration option to humans. |
 
 ## Functions
 
@@ -233,7 +222,7 @@ The unique board identifier per [vendor](#vendor) and [architecture](#arch).
 
 ### options
 
-• `Optional` `Readonly` **options**: `Readonly`\<[`ConfigOptions`](#configoptions)\>
+• `Optional` `Readonly` **options**: `Readonly`\<`Record`\<`string`, `string`\>\>
 
 Optional object of custom board options and the selected values.
 
