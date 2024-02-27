@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/dankeboy36/fqbn/compare/1.0.5...1.1.0) (2024-02-27)
+
+
+### Features
+
+* **doc:** generate API documentation ([#11](https://github.com/dankeboy36/fqbn/issues/11)) ([0685b74](https://github.com/dankeboy36/fqbn/commit/0685b74d1dac6cb6c3cb7e0fc18a61e7985272fe))
+
 ## [1.0.5](https://github.com/dankeboy36/fqbn/compare/1.0.4...1.0.5) (2024-02-10)
 
 
