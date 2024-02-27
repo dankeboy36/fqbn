@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { FQBN, valid } from '..';
+import { FQBN, valid } from '../index';
 
 describe('fqbn', () => {
   describe('valid', () => {
@@ -278,7 +278,7 @@ describe('fqbn', () => {
           {
             option: 'o2',
             values: [
-              { value: 'w1', selected: false },
+              { value: 'v2', selected: false },
               { value: 'w2', selected: true },
             ],
           }
@@ -288,7 +288,7 @@ describe('fqbn', () => {
       });
 
       it('should update the config options', () => {
-        const fqbn = new FQBN('a:b:c:o1=v1,o2=w1');
+        const fqbn = new FQBN('a:b:c:o1=v1,o2=v2');
         const actual = fqbn.withConfigOptions(
           {
             option: 'o3',
@@ -300,7 +300,7 @@ describe('fqbn', () => {
           {
             option: 'o2',
             values: [
-              { value: 'w1', selected: false },
+              { value: 'v2', selected: false },
               { value: 'w2', selected: true },
             ],
           }
