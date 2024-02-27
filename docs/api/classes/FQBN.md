@@ -79,10 +79,6 @@ assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 assert.throws(() => new FQBN('invalid'));
 ```
 
-#### Defined in
-
-[index.ts:76](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L76)
-
 ## Properties
 
 ### arch
@@ -90,10 +86,6 @@ assert.throws(() => new FQBN('invalid'));
 • `Readonly` **arch**: `string`
 
 The architecture where the board belongs to.
-
-#### Defined in
-
-[index.ts:39](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L39)
 
 ---
 
@@ -103,10 +95,6 @@ The architecture where the board belongs to.
 
 The unique board identifier per [vendor](FQBN.md#vendor) and [architecture](FQBN.md#arch).
 
-#### Defined in
-
-[index.ts:43](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L43)
-
 ---
 
 ### options
@@ -115,10 +103,6 @@ The unique board identifier per [vendor](FQBN.md#vendor) and [architecture](FQBN
 
 Optional object of custom board options and the selected values.
 
-#### Defined in
-
-[index.ts:47](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L47)
-
 ---
 
 ### vendor
@@ -126,10 +110,6 @@ Optional object of custom board options and the selected values.
 • `Readonly` **vendor**: `string`
 
 The vendor identifier. Can be any empty string.
-
-#### Defined in
-
-[index.ts:35](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L35)
 
 ## Methods
 
@@ -162,10 +142,6 @@ assert.ok(
 );
 ```
 
-#### Defined in
-
-[index.ts:301](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L301)
-
 ---
 
 ### sanitize
@@ -197,10 +173,6 @@ assert.strictEqual(
 const fqbn = new FQBN('arduino:samd:mkr1000');
 assert.ok(fqbn === fqbn.sanitize());
 ```
-
-#### Defined in
-
-[index.ts:248](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L248)
 
 ---
 
@@ -251,10 +223,6 @@ assert.strictEqual(
   'arduino:samd:mkr1000'
 );
 ```
-
-#### Defined in
-
-[index.ts:282](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L282)
 
 ---
 
@@ -323,7 +291,3 @@ const fqbn3 = fqbn2.withConfigOptions(
 );
 assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
 ```
-
-#### Defined in
-
-[index.ts:180](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L180)

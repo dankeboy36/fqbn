@@ -25,11 +25,11 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc -p ./",
+    "docs": "typedoc ./src/index.ts && concat-md ./docs > README.md && prettier --write ./docs && prettier --write ./README.md",
     "format": "prettier --write .",
     "lint": "eslint src --ext ts",
     "release": "semantic-release",
     "test": "nyc mocha",
-    "typedoc": "typedoc ./src/index.ts && concat-md ./docs > README.md && prettier --write ./docs && prettier --write ./README.md",
     "watch": "tsc -p ./ -w"
   },
   "dependencies": {

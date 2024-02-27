@@ -61,10 +61,6 @@ fqbn
 
 Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
 
-#### Defined in
-
-[index.ts:15](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L15)
-
 ---
 
 ### ConfigOptions
@@ -73,10 +69,6 @@ Lightweight representation of a custom board [config option](https://arduino.git
 
 An object of custom board config options and the selected values.
 
-#### Defined in
-
-[index.ts:379](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L379)
-
 ---
 
 ### ConfigValue
@@ -84,10 +76,6 @@ An object of custom board config options and the selected values.
 Ƭ **ConfigValue**: [`Optional`](#optional)\<`ApiConfigValue`, `"valueLabel"`\>
 
 The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
-
-#### Defined in
-
-[index.ts:11](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L11)
 
 ---
 
@@ -105,10 +93,6 @@ Original source: https://stackoverflow.com/a/61108377/5529090
 | :--- | :---------------- |
 | `T`  | `T`               |
 | `K`  | extends keyof `T` |
-
-#### Defined in
-
-[index.ts:385](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L385)
 
 ## Functions
 
@@ -145,10 +129,6 @@ assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
 ```ts
 assert.strictEqual(valid('invalid'), undefined);
 ```
-
-#### Defined in
-
-[index.ts:345](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L345)
 
 <a name="apiclassesfqbnmd"></a>
 
@@ -233,10 +213,6 @@ assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 assert.throws(() => new FQBN('invalid'));
 ```
 
-#### Defined in
-
-[index.ts:76](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L76)
-
 ## Properties
 
 ### arch
@@ -244,10 +220,6 @@ assert.throws(() => new FQBN('invalid'));
 • `Readonly` **arch**: `string`
 
 The architecture where the board belongs to.
-
-#### Defined in
-
-[index.ts:39](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L39)
 
 ---
 
@@ -257,10 +229,6 @@ The architecture where the board belongs to.
 
 The unique board identifier per [vendor](#vendor) and [architecture](#arch).
 
-#### Defined in
-
-[index.ts:43](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L43)
-
 ---
 
 ### options
@@ -269,10 +237,6 @@ The unique board identifier per [vendor](#vendor) and [architecture](#arch).
 
 Optional object of custom board options and the selected values.
 
-#### Defined in
-
-[index.ts:47](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L47)
-
 ---
 
 ### vendor
@@ -280,10 +244,6 @@ Optional object of custom board options and the selected values.
 • `Readonly` **vendor**: `string`
 
 The vendor identifier. Can be any empty string.
-
-#### Defined in
-
-[index.ts:35](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L35)
 
 ## Methods
 
@@ -316,10 +276,6 @@ assert.ok(
 );
 ```
 
-#### Defined in
-
-[index.ts:301](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L301)
-
 ---
 
 ### sanitize
@@ -351,10 +307,6 @@ assert.strictEqual(
 const fqbn = new FQBN('arduino:samd:mkr1000');
 assert.ok(fqbn === fqbn.sanitize());
 ```
-
-#### Defined in
-
-[index.ts:248](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L248)
 
 ---
 
@@ -405,10 +357,6 @@ assert.strictEqual(
   'arduino:samd:mkr1000'
 );
 ```
-
-#### Defined in
-
-[index.ts:282](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L282)
 
 ---
 
@@ -477,7 +425,3 @@ const fqbn3 = fqbn2.withConfigOptions(
 );
 assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
 ```
-
-#### Defined in
-
-[index.ts:180](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L180)

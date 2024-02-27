@@ -27,10 +27,6 @@ fqbn
 
 Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
 
-#### Defined in
-
-[index.ts:15](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L15)
-
 ---
 
 ### ConfigOptions
@@ -39,10 +35,6 @@ Lightweight representation of a custom board [config option](https://arduino.git
 
 An object of custom board config options and the selected values.
 
-#### Defined in
-
-[index.ts:379](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L379)
-
 ---
 
 ### ConfigValue
@@ -50,10 +42,6 @@ An object of custom board config options and the selected values.
 Ƭ **ConfigValue**: [`Optional`](README.md#optional)\<`ApiConfigValue`, `"valueLabel"`\>
 
 The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
-
-#### Defined in
-
-[index.ts:11](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L11)
 
 ---
 
@@ -71,10 +59,6 @@ Original source: https://stackoverflow.com/a/61108377/5529090
 | :--- | :---------------- |
 | `T`  | `T`               |
 | `K`  | extends keyof `T` |
-
-#### Defined in
-
-[index.ts:385](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L385)
 
 ## Functions
 
@@ -111,7 +95,3 @@ assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
 ```ts
 assert.strictEqual(valid('invalid'), undefined);
 ```
-
-#### Defined in
-
-[index.ts:345](https://github.com/dankeboy36/fqbn/blob/9ff0cc7/src/index.ts#L345)

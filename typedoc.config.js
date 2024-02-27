@@ -9,4 +9,5 @@ module.exports = {
   readme: 'none',
   plugin: ['typedoc-plugin-markdown'],
   githubPages: false,
+  disableSources: true,
 };
