@@ -1,9 +1,22 @@
 import assert from 'node:assert/strict';
 
-describe('example', function () {
-  this.slow(500);
+describe('examples', function () {
+  this.slow(1_000);
 
-  it('README example should work', () => {
-    assert.doesNotThrow(() => require('./example'));
-  });
+  it('new', () => assert.doesNotThrow(() => require('../__examples__/new')));
+
+  it('withConfigOptions', () =>
+    assert.doesNotThrow(() => require('../__examples__/withConfigOptions')));
+
+  it('sanitize', () =>
+    assert.doesNotThrow(() => require('../__examples__/sanitize')));
+
+  it('toString', () =>
+    assert.doesNotThrow(() => require('../__examples__/toString')));
+
+  it('equals', () =>
+    assert.doesNotThrow(() => require('../__examples__/equals')));
+
+  it('valid', () =>
+    assert.doesNotThrow(() => require('../__examples__/valid')));
 });

@@ -1,138 +1,4 @@
-<a name="01_descriptionmd"></a>
-
-# fqbn
-
-Arduino FQBN (fully qualified board name)
-
-> ℹ️ [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
-
-> FQBN stands for Fully Qualified Board Name. It has the following format: `VENDOR:ARCHITECTURE:BOARD_ID[:MENU_ID=OPTION_ID[,MENU2_ID=OPTION_ID ...]]`, with each `MENU_ID=OPTION_ID` being an optional key-value pair configuration. Each field accepts letters (`A-Z` or `a-z`), numbers (`0-9`), underscores (`_`), dashes(`-`) and dots(`.`). The special character `=` is accepted in the configuration value. For a deeper understanding of how FQBN works, you should understand the [Arduino platform specification](https://arduino.github.io/arduino-cli/dev/platform-specification/).
-
-<a name="02_usagemd"></a>
-
-## Install
-
-```sh
-npm install fqbn
-```
-
-## API
-
-CommonJS:
-
-```js
-const { FQBN, valid } = require('fqbn');
-```
-
-TypeScript:
-
-```ts
-import { FQBN, valid } from 'fqbn';
-```
-
-<a name="apireadmemd"></a>
-
-fqbn
-
-# fqbn
-
-## Table of contents
-
-### Classes
-
-- [FQBN](#apiclassesfqbnmd)
-
-### Type Aliases
-
-- [ConfigOption](#configoption)
-- [ConfigOptions](#configoptions)
-- [ConfigValue](#configvalue)
-- [Optional](#optional)
-
-### Functions
-
-- [valid](#valid)
-
-## Type Aliases
-
-### ConfigOption
-
-Ƭ **ConfigOption**: [`Optional`](#optional)\<`Omit`\<`ApiConfigOption`, `"values"`\>, `"optionLabel"`\> & \{ `values`: [`ConfigValue`](#configvalue)[] }
-
-Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
-
----
-
-### ConfigOptions
-
-Ƭ **ConfigOptions**: `Record`\<`string`, `string`\>
-
-An object of custom board config options and the selected values.
-
----
-
-### ConfigValue
-
-Ƭ **ConfigValue**: [`Optional`](#optional)\<`ApiConfigValue`, `"valueLabel"`\>
-
-The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
-
----
-
-### Optional
-
-Ƭ **Optional**\<`T`, `K`\>: `Pick`\<`Partial`\<`T`\>, `K`\> & `Omit`\<`T`, `K`\>
-
-From `T`, make properties those in type `K` optional.
-
-Original source: https://stackoverflow.com/a/61108377/5529090
-
-#### Type parameters
-
-| Name | Type              |
-| :--- | :---------------- |
-| `T`  | `T`               |
-| `K`  | extends keyof `T` |
-
-## Functions
-
-### valid
-
-▸ **valid**(`fqbn`): [`FQBN`](#apiclassesfqbnmd) \| `undefined`
-
-Returns the parsed FQBN if valid. Otherwise, `undefined`.
-
-#### Parameters
-
-| Name   | Type     | Description     |
-| :----- | :------- | :-------------- |
-| `fqbn` | `string` | the FQBN string |
-
-#### Returns
-
-[`FQBN`](#apiclassesfqbnmd) \| `undefined`
-
-the parsed FQBN or `undefined`.
-
-**`Example`**
-
-Parse a valid FQBN
-
-```ts
-assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
-```
-
-**`Example`**
-
-`undefined` if the FQBN string is invalid
-
-```ts
-assert.strictEqual(valid('invalid'), undefined);
-```
-
-<a name="apiclassesfqbnmd"></a>
-
-[fqbn](#apireadmemd) / FQBN
+[fqbn](../README.md) / FQBN
 
 # Class: FQBN
 
@@ -148,27 +14,27 @@ For a deeper understanding of how FQBN works, you should understand the
 
 ### Constructors
 
-- [constructor](#constructor)
+- [constructor](FQBN.md#constructor)
 
 ### Properties
 
-- [arch](#arch)
-- [boardId](#boardid)
-- [options](#options)
-- [vendor](#vendor)
+- [arch](FQBN.md#arch)
+- [boardId](FQBN.md#boardid)
+- [options](FQBN.md#options)
+- [vendor](FQBN.md#vendor)
 
 ### Methods
 
-- [equals](#equals)
-- [sanitize](#sanitize)
-- [toString](#tostring)
-- [withConfigOptions](#withconfigoptions)
+- [equals](FQBN.md#equals)
+- [sanitize](FQBN.md#sanitize)
+- [toString](FQBN.md#tostring)
+- [withConfigOptions](FQBN.md#withconfigoptions)
 
 ## Constructors
 
 ### constructor
 
-• **new FQBN**(`fqbn`): [`FQBN`](#apiclassesfqbnmd)
+• **new FQBN**(`fqbn`): [`FQBN`](FQBN.md)
 
 Creates a new FQBN instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
 
@@ -180,7 +46,7 @@ Creates a new FQBN instance after parsing the raw FQBN string. Errors when the F
 
 #### Returns
 
-[`FQBN`](#apiclassesfqbnmd)
+[`FQBN`](FQBN.md)
 
 **`Example`**
 
@@ -227,13 +93,13 @@ The architecture where the board belongs to.
 
 • `Readonly` **boardId**: `string`
 
-The unique board identifier per [vendor](#vendor) and [architecture](#arch).
+The unique board identifier per [vendor](FQBN.md#vendor) and [architecture](FQBN.md#arch).
 
 ---
 
 ### options
 
-• `Optional` `Readonly` **options**: `Readonly`\<[`ConfigOptions`](#configoptions)\>
+• `Optional` `Readonly` **options**: `Readonly`\<[`ConfigOptions`](../README.md#configoptions)\>
 
 Optional object of custom board options and the selected values.
 
@@ -255,9 +121,9 @@ The vendor identifier. Can be any empty string.
 
 #### Parameters
 
-| Name    | Type                        | Description                            |
-| :------ | :-------------------------- | :------------------------------------- |
-| `other` | [`FQBN`](#apiclassesfqbnmd) | the other FQBN to compare `this` with. |
+| Name    | Type              | Description                            |
+| :------ | :---------------- | :------------------------------------- |
+| `other` | [`FQBN`](FQBN.md) | the other FQBN to compare `this` with. |
 
 #### Returns
 
@@ -280,13 +146,13 @@ assert.ok(
 
 ### sanitize
 
-▸ **sanitize**(): [`FQBN`](#apiclassesfqbnmd)
+▸ **sanitize**(): [`FQBN`](FQBN.md)
 
 Returns a new FQBN instance without any config options.
 
 #### Returns
 
-[`FQBN`](#apiclassesfqbnmd)
+[`FQBN`](FQBN.md)
 
 the new FQBN
 
@@ -362,20 +228,20 @@ assert.strictEqual(
 
 ### withConfigOptions
 
-▸ **withConfigOptions**(`...configOptions`): [`FQBN`](#apiclassesfqbnmd)
+▸ **withConfigOptions**(`...configOptions`): [`FQBN`](FQBN.md)
 
 Creates an immutable copy of the current FQBN after updating the [custom board config options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
 Adds the new config options and updates the existing ones. New entries are appended to the end of the FQBN. Updates never changes the order.
 
 #### Parameters
 
-| Name               | Type                              | Description                                                                                                                                                                                                              |
-| :----------------- | :-------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `...configOptions` | [`ConfigOption`](#configoption)[] | to update the FQBN with. The config options are provided by the Arduino CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
+| Name               | Type                                          | Description                                                                                                                                                                                                              |
+| :----------------- | :-------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `...configOptions` | [`ConfigOption`](../README.md#configoption)[] | to update the FQBN with. The config options are provided by the Arduino CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
 
 #### Returns
 
-[`FQBN`](#apiclassesfqbnmd)
+[`FQBN`](FQBN.md)
 
 **`Example`**
 
