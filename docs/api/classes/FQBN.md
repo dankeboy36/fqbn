@@ -99,7 +99,7 @@ The unique board identifier per [vendor](FQBN.md#vendor) and [architecture](FQBN
 
 ### options
 
-• `Optional` `Readonly` **options**: `Readonly`\<[`ConfigOptions`](../README.md#configoptions)\>
+• `Optional` `Readonly` **options**: `Readonly`\<`Record`\<`string`, `string`\>\>
 
 Optional object of custom board options and the selected values.
 

@@ -1,3 +1,4 @@
+import type { ConfigOption, ConfigValue } from 'ardunno-cli';
 import assert from 'node:assert/strict';
 import { FQBN, valid } from '../index';
 
@@ -315,14 +316,24 @@ describe('fqbn', () => {
 
       it('should create a new instance when updated', () => {
         const fqbn = new FQBN('a:b:c');
-        const actual = fqbn.withConfigOptions({
-          option: 'o1',
-          optionLabel: 'O1', // Additional CLI props are allowed
-          values: [
-            { value: 'v1', valueLabel: 'V1', selected: true },
-            { value: 'v2', valueLabel: 'V2', selected: false },
-          ],
-        });
+        const cliConfigValue1: ConfigValue = {
+          value: 'v1',
+          valueLabel: 'V1',
+          selected: true,
+        };
+        const cliConfigValue2: ConfigValue = {
+          value: 'v2',
+          valueLabel: 'V2',
+          selected: false,
+        };
+        const cliOptions: ConfigOption[] = [
+          {
+            option: 'o1',
+            optionLabel: 'O1', // Additional CLI props are allowed
+            values: [cliConfigValue1, cliConfigValue2],
+          },
+        ];
+        const actual = fqbn.withConfigOptions(...cliOptions);
 
         assert.strictEqual(actual.toString(), 'a:b:c:o1=v1');
         assert.deepStrictEqual(actual.options, {

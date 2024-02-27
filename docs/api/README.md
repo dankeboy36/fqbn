@@ -11,9 +11,7 @@ fqbn
 ### Type Aliases
 
 - [ConfigOption](README.md#configoption)
-- [ConfigOptions](README.md#configoptions)
 - [ConfigValue](README.md#configvalue)
-- [Optional](README.md#optional)
 
 ### Functions
 
@@ -23,42 +21,33 @@ fqbn
 
 ### ConfigOption
 
-Ƭ **ConfigOption**: [`Optional`](README.md#optional)\<`Omit`\<`ApiConfigOption`, `"values"`\>, `"optionLabel"`\> & \{ `values`: [`ConfigValue`](README.md#configvalue)[] }
+Ƭ **ConfigOption**: `Object`
 
 Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
 
----
+#### Type declaration
 
-### ConfigOptions
-
-Ƭ **ConfigOptions**: `Record`\<`string`, `string`\>
-
-An object of custom board config options and the selected values.
+| Name           | Type                                              | Description                                                             |
+| :------------- | :------------------------------------------------ | :---------------------------------------------------------------------- |
+| `option`       | `string`                                          | ID of the configuration option. For identifying the option to machines. |
+| `optionLabel?` | `string`                                          | Name of the configuration option for identifying the option to humans.  |
+| `values`       | readonly [`ConfigValue`](README.md#configvalue)[] | Possible values of the configuration option.                            |
 
 ---
 
 ### ConfigValue
 
-Ƭ **ConfigValue**: [`Optional`](README.md#optional)\<`ApiConfigValue`, `"valueLabel"`\>
+Ƭ **ConfigValue**: `Object`
 
 The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
 
----
+#### Type declaration
 
-### Optional
-
-Ƭ **Optional**\<`T`, `K`\>: `Pick`\<`Partial`\<`T`\>, `K`\> & `Omit`\<`T`, `K`\>
-
-From `T`, make properties those in type `K` optional.
-
-Original source: https://stackoverflow.com/a/61108377/5529090
-
-#### Type parameters
-
-| Name | Type              |
-| :--- | :---------------- |
-| `T`  | `T`               |
-| `K`  | extends keyof `T` |
+| Name          | Type      | Description                                           |
+| :------------ | :-------- | :---------------------------------------------------- |
+| `selected`    | `boolean` | Whether the configuration option is selected.         |
+| `value`       | `string`  | The configuration option value.                       |
+| `valueLabel?` | `string`  | Label to identify the configuration option to humans. |
 
 ## Functions
 

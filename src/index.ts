@@ -1,22 +1,40 @@
-import type {
-  ConfigOption as ApiConfigOption,
-  ConfigValue as ApiConfigValue,
-} from 'ardunno-cli';
 import clone from 'clone';
 import deepEqual from 'deep-equal';
 
 /**
  * The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
  */
-export type ConfigValue = Optional<ApiConfigValue, 'valueLabel'>;
+export type ConfigValue = {
+  /**
+   * The configuration option value.
+   */
+  readonly value: string;
+  /**
+   * Label to identify the configuration option to humans.
+   */
+  readonly valueLabel?: string;
+  /**
+   * Whether the configuration option is selected.
+   */
+  readonly selected: boolean;
+};
+
 /**
  * Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
  */
-export type ConfigOption = Optional<
-  Omit<ApiConfigOption, 'values'>,
-  'optionLabel'
-> & {
-  values: ConfigValue[];
+export type ConfigOption = {
+  /**
+   * ID of the configuration option. For identifying the option to machines.
+   */
+  readonly option: string;
+  /**
+   * Name of the configuration option for identifying the option to humans.
+   */
+  readonly optionLabel?: string;
+  /**
+   * Possible values of the configuration option.
+   */
+  readonly values: readonly ConfigValue[];
 };
 
 /**
@@ -44,7 +62,7 @@ export class FQBN {
   /**
    * Optional object of custom board options and the selected values.
    */
-  readonly options?: Readonly<ConfigOptions>;
+  readonly options?: Readonly<Record<string, string>>;
 
   /**
    * Creates a new FQBN instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
@@ -208,7 +226,7 @@ export class FQBN {
       newOptions[key] = value;
     }
 
-    const options: Mutable<ConfigOptions> = this.options
+    const options: Record<string, string> = this.options
       ? clone(this.options)
       : {};
     let didUpdate = false;
@@ -315,7 +333,7 @@ function serialize(
   vendor: string,
   arch: string,
   boardId: string,
-  options: ConfigOptions | undefined = undefined
+  options: Record<string, string> | undefined = undefined
 ): string {
   const configs = !options
     ? ''
@@ -357,7 +375,6 @@ function hasConfigOptions(fqbn: FQBN): boolean {
   return !!fqbn.options && !!Object.keys(fqbn.options).length;
 }
 
-/** @ignore */
 class InvalidFQBNError extends Error {
   constructor(readonly fqbn: string) {
     super(`Invalid FQBN: ${fqbn}`);
@@ -365,23 +382,9 @@ class InvalidFQBNError extends Error {
   }
 }
 
-/** @ignore */
 class ConfigOptionError extends InvalidFQBNError {
   constructor(fqbn: string, readonly detail: string) {
     super(fqbn);
     this.name = ConfigOptionError.name;
   }
 }
-
-/**
- * An object of custom board config options and the selected values.
- */
-export type ConfigOptions = Record<string, string>;
-/**
- * From `T`, make properties those in type `K` optional.
- *
- * Original source: https://stackoverflow.com/a/61108377/5529090
- */
-export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
-// https://stackoverflow.com/a/43001581/5529090
-type Mutable<T> = { -readonly [P in keyof T]: T[P] };
