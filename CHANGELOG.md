@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/dankeboy36/fqbn/compare/1.1.0...1.1.1) (2024-02-27)
+
+
+### Bug Fixes
+
+* **doc:** use no external API references ([#12](https://github.com/dankeboy36/fqbn/issues/12)) ([c65fb96](https://github.com/dankeboy36/fqbn/commit/c65fb96509c84561c5c810a8ced613ef4c70f593))
+
 # [1.1.0](https://github.com/dankeboy36/fqbn/compare/1.0.5...1.1.0) (2024-02-27)
 
 
