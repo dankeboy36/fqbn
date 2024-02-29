@@ -42,7 +42,7 @@ export type ConfigOption = {
  * `VENDOR:ARCHITECTURE:BOARD_ID[:MENU_ID=OPTION_ID[,MENU2_ID=OPTION_ID ...]]`,
  * with each `MENU_ID=OPTION_ID` being an optional key-value pair configuration.
  * Each field accepts letters (`A-Z` or `a-z`), numbers (`0-9`), underscores (`_`), dashes(`-`) and dots(`.`).
- * The special character `=` is accepted in the configuration value.
+ * The special character `=` is accepted in the configuration value. The `VENDOR` an `ARCHITECTURE` parts can be empty.
  * For a deeper understanding of how FQBN works, you should understand the
  * [Arduino platform specification](https://arduino.github.io/arduino-cli/dev/platform-specification/).
  */
@@ -52,7 +52,7 @@ export class FQBN {
    */
   readonly vendor: string;
   /**
-   * The architecture where the board belongs to.
+   * The architecture of the board. Can be any empty string.
    */
   readonly arch: string;
   /**
@@ -60,12 +60,12 @@ export class FQBN {
    */
   readonly boardId: string;
   /**
-   * Optional object of custom board options and the selected values.
+   * Optional custom board options and their selected values.
    */
   readonly options?: Readonly<Record<string, string>>;
 
   /**
-   * Creates a new FQBN instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
+   * Creates a new {@link FQBN} instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
    *
    * @param fqbn the raw FQBN string to parse
    *
@@ -150,7 +150,7 @@ export class FQBN {
   }
 
   /**
-   * Creates an immutable copy of the current FQBN after updating the [custom board config options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
+   * Creates an immutable copy of the current {@link FQBN} after updating the [custom board config options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
    * Adds the new config options and updates the existing ones. New entries are appended to the end of the FQBN. Updates never changes the order.
    *
    * @param configOptions to update the FQBN with. The config options are provided by the Arduino CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command.
@@ -247,7 +247,7 @@ export class FQBN {
   }
 
   /**
-   * Returns a new FQBN instance without any config options.
+   * Returns a new {@link FQBN} instance without any config options.
    *
    * @returns the new FQBN
    *
@@ -303,9 +303,9 @@ export class FQBN {
   }
 
   /**
-   * `true` if the `other` FQBN equals to `this`. The custom board config options key order is insignificant.
+   * `true` if the `other` {@link FQBN} equals to `this`. The custom board config options key order is insignificant.
    *
-   * @param other the other FQBN to compare `this` with.
+   * @param other the other FQBN.
    * @returns `true` if equals. Otherwise, `false`.
    *
    * @example
@@ -344,21 +344,17 @@ function serialize(
 }
 
 /**
- * Returns the parsed FQBN if valid. Otherwise, `undefined`.
- * @param fqbn the FQBN string
+ * Returns the parsed {@link FQBN} if valid. Otherwise, `undefined`.
+ * @param fqbn the FQBN string.
  * @returns the parsed FQBN or `undefined`.
  *
  * @example
- * Parse a valid FQBN
- * ```ts
+ * // valid FQBN
  * assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
- * ```
  *
  * @example
- * `undefined` if the FQBN string is invalid
- * ```ts
+ * // invalid FQBN
  * assert.strictEqual(valid('invalid'), undefined)
- * ```
  */
 export function valid(fqbn: string): FQBN | undefined {
   try {

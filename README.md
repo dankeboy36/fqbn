@@ -1,4 +1,6 @@
-<a name="01_descriptionmd"></a>
+<a name="readmemd"></a>
+
+fqbn / [Exports](#modulesmd)
 
 # fqbn
 
@@ -6,17 +8,13 @@ Arduino FQBN (fully qualified board name)
 
 > ℹ️ [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
 
-> FQBN stands for Fully Qualified Board Name. It has the following format: `VENDOR:ARCHITECTURE:BOARD_ID[:MENU_ID=OPTION_ID[,MENU2_ID=OPTION_ID ...]]`, with each `MENU_ID=OPTION_ID` being an optional key-value pair configuration. Each field accepts letters (`A-Z` or `a-z`), numbers (`0-9`), underscores (`_`), dashes(`-`) and dots(`.`). The special character `=` is accepted in the configuration value. For a deeper understanding of how FQBN works, you should understand the [Arduino platform specification](https://arduino.github.io/arduino-cli/dev/platform-specification/).
-
-<a name="02_usagemd"></a>
-
 ## Install
 
 ```sh
 npm install fqbn
 ```
 
-## API
+## Usage
 
 CommonJS:
 
@@ -30,98 +28,9 @@ TypeScript:
 import { FQBN, valid } from 'fqbn';
 ```
 
-<a name="apireadmemd"></a>
+<a name="classesfqbnmd"></a>
 
-fqbn
-
-# fqbn
-
-## Table of contents
-
-### Classes
-
-- [FQBN](#apiclassesfqbnmd)
-
-### Type Aliases
-
-- [ConfigOption](#configoption)
-- [ConfigValue](#configvalue)
-
-### Functions
-
-- [valid](#valid)
-
-## Type Aliases
-
-### ConfigOption
-
-Ƭ **ConfigOption**: `Object`
-
-Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
-
-#### Type declaration
-
-| Name           | Type                                     | Description                                                             |
-| :------------- | :--------------------------------------- | :---------------------------------------------------------------------- |
-| `option`       | `string`                                 | ID of the configuration option. For identifying the option to machines. |
-| `optionLabel?` | `string`                                 | Name of the configuration option for identifying the option to humans.  |
-| `values`       | readonly [`ConfigValue`](#configvalue)[] | Possible values of the configuration option.                            |
-
----
-
-### ConfigValue
-
-Ƭ **ConfigValue**: `Object`
-
-The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
-
-#### Type declaration
-
-| Name          | Type      | Description                                           |
-| :------------ | :-------- | :---------------------------------------------------- |
-| `selected`    | `boolean` | Whether the configuration option is selected.         |
-| `value`       | `string`  | The configuration option value.                       |
-| `valueLabel?` | `string`  | Label to identify the configuration option to humans. |
-
-## Functions
-
-### valid
-
-▸ **valid**(`fqbn`): [`FQBN`](#apiclassesfqbnmd) \| `undefined`
-
-Returns the parsed FQBN if valid. Otherwise, `undefined`.
-
-#### Parameters
-
-| Name   | Type     | Description     |
-| :----- | :------- | :-------------- |
-| `fqbn` | `string` | the FQBN string |
-
-#### Returns
-
-[`FQBN`](#apiclassesfqbnmd) \| `undefined`
-
-the parsed FQBN or `undefined`.
-
-**`Example`**
-
-Parse a valid FQBN
-
-```ts
-assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
-```
-
-**`Example`**
-
-`undefined` if the FQBN string is invalid
-
-```ts
-assert.strictEqual(valid('invalid'), undefined);
-```
-
-<a name="apiclassesfqbnmd"></a>
-
-[fqbn](#apireadmemd) / FQBN
+[fqbn](#readmemd) / [Exports](#modulesmd) / FQBN
 
 # Class: FQBN
 
@@ -129,7 +38,7 @@ FQBN stands for Fully Qualified Board Name. It has the following format:
 `VENDOR:ARCHITECTURE:BOARD_ID[:MENU_ID=OPTION_ID[,MENU2_ID=OPTION_ID ...]]`,
 with each `MENU_ID=OPTION_ID` being an optional key-value pair configuration.
 Each field accepts letters (`A-Z` or `a-z`), numbers (`0-9`), underscores (`_`), dashes(`-`) and dots(`.`).
-The special character `=` is accepted in the configuration value.
+The special character `=` is accepted in the configuration value. The `VENDOR` an `ARCHITECTURE` parts can be empty.
 For a deeper understanding of how FQBN works, you should understand the
 [Arduino platform specification](https://arduino.github.io/arduino-cli/dev/platform-specification/).
 
@@ -157,9 +66,9 @@ For a deeper understanding of how FQBN works, you should understand the
 
 ### constructor
 
-• **new FQBN**(`fqbn`): [`FQBN`](#apiclassesfqbnmd)
+• **new FQBN**(`fqbn`): [`FQBN`](#classesfqbnmd)
 
-Creates a new FQBN instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
+Creates a new [FQBN](#classesfqbnmd) instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
 
 #### Parameters
 
@@ -169,7 +78,7 @@ Creates a new FQBN instance after parsing the raw FQBN string. Errors when the F
 
 #### Returns
 
-[`FQBN`](#apiclassesfqbnmd)
+[`FQBN`](#classesfqbnmd)
 
 **`Example`**
 
@@ -208,7 +117,7 @@ assert.throws(() => new FQBN('invalid'));
 
 • `Readonly` **arch**: `string`
 
-The architecture where the board belongs to.
+The architecture of the board. Can be any empty string.
 
 ---
 
@@ -224,7 +133,7 @@ The unique board identifier per [vendor](#vendor) and [architecture](#arch).
 
 • `Optional` `Readonly` **options**: `Readonly`\<`Record`\<`string`, `string`\>\>
 
-Optional object of custom board options and the selected values.
+Optional custom board options and their selected values.
 
 ---
 
@@ -240,13 +149,13 @@ The vendor identifier. Can be any empty string.
 
 ▸ **equals**(`other`): `boolean`
 
-`true` if the `other` FQBN equals to `this`. The custom board config options key order is insignificant.
+`true` if the `other` [FQBN](#classesfqbnmd) equals to `this`. The custom board config options key order is insignificant.
 
 #### Parameters
 
-| Name    | Type                        | Description                            |
-| :------ | :-------------------------- | :------------------------------------- |
-| `other` | [`FQBN`](#apiclassesfqbnmd) | the other FQBN to compare `this` with. |
+| Name    | Type                     | Description     |
+| :------ | :----------------------- | :-------------- |
+| `other` | [`FQBN`](#classesfqbnmd) | the other FQBN. |
 
 #### Returns
 
@@ -269,13 +178,13 @@ assert.ok(
 
 ### sanitize
 
-▸ **sanitize**(): [`FQBN`](#apiclassesfqbnmd)
+▸ **sanitize**(): [`FQBN`](#classesfqbnmd)
 
-Returns a new FQBN instance without any config options.
+Returns a new [FQBN](#classesfqbnmd) instance without any config options.
 
 #### Returns
 
-[`FQBN`](#apiclassesfqbnmd)
+[`FQBN`](#classesfqbnmd)
 
 the new FQBN
 
@@ -351,9 +260,9 @@ assert.strictEqual(
 
 ### withConfigOptions
 
-▸ **withConfigOptions**(`...configOptions`): [`FQBN`](#apiclassesfqbnmd)
+▸ **withConfigOptions**(`...configOptions`): [`FQBN`](#classesfqbnmd)
 
-Creates an immutable copy of the current FQBN after updating the [custom board config options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
+Creates an immutable copy of the current [FQBN](#classesfqbnmd) after updating the [custom board config options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
 Adds the new config options and updates the existing ones. New entries are appended to the end of the FQBN. Updates never changes the order.
 
 #### Parameters
@@ -364,7 +273,7 @@ Adds the new config options and updates the existing ones. New entries are appen
 
 #### Returns
 
-[`FQBN`](#apiclassesfqbnmd)
+[`FQBN`](#classesfqbnmd)
 
 **`Example`**
 
@@ -413,4 +322,91 @@ const fqbn3 = fqbn2.withConfigOptions(
   }
 );
 assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
+```
+
+<a name="modulesmd"></a>
+
+[fqbn](#readmemd) / Exports
+
+# fqbn
+
+## Table of contents
+
+### Classes
+
+- [FQBN](#classesfqbnmd)
+
+### Type Aliases
+
+- [ConfigOption](#configoption)
+- [ConfigValue](#configvalue)
+
+### Functions
+
+- [valid](#valid)
+
+## Type Aliases
+
+### ConfigOption
+
+Ƭ **ConfigOption**: `Object`
+
+Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
+
+#### Type declaration
+
+| Name           | Type                                     | Description                                                             |
+| :------------- | :--------------------------------------- | :---------------------------------------------------------------------- |
+| `option`       | `string`                                 | ID of the configuration option. For identifying the option to machines. |
+| `optionLabel?` | `string`                                 | Name of the configuration option for identifying the option to humans.  |
+| `values`       | readonly [`ConfigValue`](#configvalue)[] | Possible values of the configuration option.                            |
+
+---
+
+### ConfigValue
+
+Ƭ **ConfigValue**: `Object`
+
+The bare minimum representation of the [`ConfigValue`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configvalue) provided by the CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsrequest) command.
+
+#### Type declaration
+
+| Name          | Type      | Description                                           |
+| :------------ | :-------- | :---------------------------------------------------- |
+| `selected`    | `boolean` | Whether the configuration option is selected.         |
+| `value`       | `string`  | The configuration option value.                       |
+| `valueLabel?` | `string`  | Label to identify the configuration option to humans. |
+
+## Functions
+
+### valid
+
+▸ **valid**(`fqbn`): [`FQBN`](#classesfqbnmd) \| `undefined`
+
+Returns the parsed [FQBN](#classesfqbnmd) if valid. Otherwise, `undefined`.
+
+#### Parameters
+
+| Name   | Type     | Description      |
+| :----- | :------- | :--------------- |
+| `fqbn` | `string` | the FQBN string. |
+
+#### Returns
+
+[`FQBN`](#classesfqbnmd) \| `undefined`
+
+the parsed FQBN or `undefined`.
+
+**`Example`**
+
+```ts
+// valid FQBN
+assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
+```
+
+**`Example`**
+
+```ts
+// invalid FQBN
+assert.strictEqual(valid('invalid'), undefined);
 ```
