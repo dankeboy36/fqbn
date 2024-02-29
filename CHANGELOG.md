@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/dankeboy36/fqbn/compare/1.1.1...1.1.2) (2024-02-29)
+
+
+### Bug Fixes
+
+* **doc:** README section order and generation ([#13](https://github.com/dankeboy36/fqbn/issues/13)) ([5350446](https://github.com/dankeboy36/fqbn/commit/53504462066893adc384df494df9b5995d2414ef))
+
 ## [1.1.1](https://github.com/dankeboy36/fqbn/compare/1.1.0...1.1.1) (2024-02-27)
 
 
