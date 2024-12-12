@@ -146,6 +146,30 @@ describe('fqbn', () => {
           /ConfigOptionError: .*/
         );
       });
+
+      // https://github.com/arduino/arduino-cli/pull/2768
+      // Run all tests from the reference implementation
+      [
+        // Check invalid characters in config keys
+        [
+          'arduino:avr:uno:cpu@=atmega',
+          'arduino:avr:uno:cpu@atmega',
+          'arduino:avr:uno:cpu=atmega,speed@=1000',
+          'arduino:avr:uno:cpu=atmega,speed@1000',
+        ],
+        // Check invalid characters in config values
+        [
+          'arduino:avr:uno:cpu=atmega@',
+          'arduino:avr:uno:cpu=atmega@extra',
+          'arduino:avr:uno:cpu=atmega,speed=1000@',
+          'arduino:avr:uno:cpu=atmega,speed=1000@extra',
+        ],
+      ]
+        .flat()
+        .map((fqbn) =>
+          it('should error with invalid config syntax (arduino/arduino-cli#2768)', () =>
+            assert.throws(() => new FQBN(fqbn), /ConfigOptionError: .*/))
+        );
     });
 
     describe('toString', () => {
