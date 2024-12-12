@@ -6,7 +6,9 @@ fqbn / [Exports](#modulesmd)
 
 Arduino FQBN (fully qualified board name)
 
-> ℹ️ [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
+> **ⓘ** [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
+
+> **ⓘ** [This library is based on the official implementation of FQBN written in Go](https://pkg.go.dev/github.com/arduino/arduino-cli@v1.1.2-0.20241211160613-84fc413ad815/pkg/fqbn)
 
 ## Install
 
