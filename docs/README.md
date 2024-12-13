@@ -1,6 +1,6 @@
 # fqbn
 
-Arduino FQBN (fully qualified board name)
+Arduino FQBN (Fully Qualified Board Name)
 
 > **ⓘ** [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
 
