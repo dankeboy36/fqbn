@@ -4,7 +4,7 @@ fqbn / [Exports](#modulesmd)
 
 # fqbn
 
-Arduino FQBN (fully qualified board name)
+Arduino FQBN (Fully Qualified Board Name)
 
 > **ⓘ** [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
 
@@ -40,7 +40,7 @@ FQBN stands for Fully Qualified Board Name. It has the following format:
 `VENDOR:ARCHITECTURE:BOARD_ID[:MENU_ID=OPTION_ID[,MENU2_ID=OPTION_ID ...]]`,
 with each `MENU_ID=OPTION_ID` being an optional key-value pair configuration.
 Each field accepts letters (`A-Z` or `a-z`), numbers (`0-9`), underscores (`_`), dashes(`-`) and dots(`.`).
-The special character `=` is accepted in the configuration value. The `VENDOR` an `ARCHITECTURE` parts can be empty.
+The special character `=` is accepted in the configuration value. The `VENDOR` and `ARCHITECTURE` parts can be empty.
 For a deeper understanding of how FQBN works, you should understand the
 [Arduino platform specification](https://arduino.github.io/arduino-cli/dev/platform-specification/).
 
@@ -70,7 +70,7 @@ For a deeper understanding of how FQBN works, you should understand the
 
 • **new FQBN**(`fqbn`): [`FQBN`](#classesfqbnmd)
 
-Creates a new [FQBN](#classesfqbnmd) instance after parsing the raw FQBN string. Errors when the FQBN string is invalid.
+Creates a new [FQBN](#classesfqbnmd) instance after parsing the raw FQBN string—errors when the FQBN string is invalid.
 
 #### Parameters
 
@@ -85,7 +85,7 @@ Creates a new [FQBN](#classesfqbnmd) instance after parsing the raw FQBN string.
 **`Example`**
 
 ```ts
-// valid FQBN
+// Valid FQBN.
 const fqbn1 = new FQBN('arduino:samd:mkr1000');
 assert.ok(fqbn1);
 assert.strictEqual(fqbn1.vendor, 'arduino');
@@ -97,7 +97,7 @@ assert.strictEqual(fqbn1.options, undefined);
 **`Example`**
 
 ```ts
-// valid FQBN with custom board options
+// Valid FQBN with custom board options.
 const fqbn2 = new FQBN('arduino:samd:mkr1000:o1=v1');
 assert.ok(fqbn2);
 assert.strictEqual(fqbn2.vendor, 'arduino');
@@ -109,7 +109,7 @@ assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 **`Example`**
 
 ```ts
-// invalid FQBN
+// Invalid FQBN.
 assert.throws(() => new FQBN('invalid'));
 ```
 
@@ -119,7 +119,7 @@ assert.throws(() => new FQBN('invalid'));
 
 • `Readonly` **arch**: `string`
 
-The architecture of the board. Can be any empty string.
+The architecture of the board. It can be an empty string.
 
 ---
 
@@ -143,7 +143,7 @@ Optional custom board options and their selected values.
 
 • `Readonly` **vendor**: `string`
 
-The vendor identifier. Can be any empty string.
+The vendor identifier. It can be an empty string.
 
 ## Methods
 
@@ -151,7 +151,7 @@ The vendor identifier. Can be any empty string.
 
 ▸ **equals**(`other`): `boolean`
 
-`true` if the `other` [FQBN](#classesfqbnmd) equals to `this`. The custom board config options key order is insignificant.
+`true` if the `other` [FQBN](#classesfqbnmd) equals `this`. The key order of the custom board configuration options is insignificant.
 
 #### Parameters
 
@@ -168,7 +168,7 @@ The vendor identifier. Can be any empty string.
 **`Example`**
 
 ```ts
-// the custom board option keys order is insignificant when comparing two FQBNs
+// The key order of the custom board configuration options is insignificant when comparing two FQBNs.
 assert.ok(
   new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2').equals(
     new FQBN('arduino:samd:mkr1000:o2=v2,o1=v1')
@@ -182,7 +182,7 @@ assert.ok(
 
 ▸ **sanitize**(): [`FQBN`](#classesfqbnmd)
 
-Returns a new [FQBN](#classesfqbnmd) instance without any config options.
+This function returns a new [FQBN](#classesfqbnmd) instance that does not include any configuration options.
 
 #### Returns
 
@@ -193,7 +193,7 @@ the new FQBN
 **`Example`**
 
 ```ts
-// removes the custom board config options
+// Removes the custom board config options.
 assert.strictEqual(
   new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2').sanitize().toString(),
   'arduino:samd:mkr1000'
@@ -203,7 +203,7 @@ assert.strictEqual(
 **`Example`**
 
 ```ts
-// returns the same instance when no custom board options are available
+// Returns the same instance when no custom board options are available.
 const fqbn = new FQBN('arduino:samd:mkr1000');
 assert.ok(fqbn === fqbn.sanitize());
 ```
@@ -214,24 +214,24 @@ assert.ok(fqbn === fqbn.sanitize());
 
 ▸ **toString**(`skipOptions?`): `string`
 
-Creates the string representation of the FQBN instance.
+Generates the string representation of the FQBN instance.
 
 #### Parameters
 
-| Name          | Type      | Default value | Description                                                                                |
-| :------------ | :-------- | :------------ | :----------------------------------------------------------------------------------------- |
-| `skipOptions` | `boolean` | `false`       | when `true`, any custom board config options won't be serialized. It's `false` by default. |
+| Name          | Type      | Default value | Description                                                                                                      |
+| :------------ | :-------- | :------------ | :--------------------------------------------------------------------------------------------------------------- |
+| `skipOptions` | `boolean` | `false`       | When set to `true`, any custom board configuration options will not be serialized. The default value is `false`. |
 
 #### Returns
 
 `string`
 
-the string representation of the FQBN.
+The resulting string representation of the FQBN.
 
 **`Example`**
 
 ```ts
-// creates the string representation of the FQBN
+// Generates the string representation of the FQBN.
 assert.strictEqual(
   new FQBN('arduino:samd:mkr1000').toString(),
   'arduino:samd:mkr1000'
@@ -241,7 +241,7 @@ assert.strictEqual(
 **`Example`**
 
 ```ts
-// keeps the order of the custom board option keys
+// Keeps the order of the custom board option keys.
 assert.strictEqual(
   new FQBN('arduino:samd:mkr1000:o1=v1').toString(),
   'arduino:samd:mkr1000:o1=v1'
@@ -251,7 +251,7 @@ assert.strictEqual(
 **`Example`**
 
 ```ts
-// can skip the config options from the serialization
+// Skips the config options from the serialization.
 assert.strictEqual(
   new FQBN('arduino:samd:mkr1000:o1=v1').toString(true),
   'arduino:samd:mkr1000'
@@ -264,14 +264,14 @@ assert.strictEqual(
 
 ▸ **withConfigOptions**(`...configOptions`): [`FQBN`](#classesfqbnmd)
 
-Creates an immutable copy of the current [FQBN](#classesfqbnmd) after updating the [custom board config options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
-Adds the new config options and updates the existing ones. New entries are appended to the end of the FQBN. Updates never changes the order.
+Creates an immutable copy of the current Fully Qualified Board Name (FQBN) after updating the [custom board configuration options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
+Adds new configuration options and updates the existing ones. New entries are appended to the end of the FQBN, while the order of the existing options remains unchanged.
 
 #### Parameters
 
-| Name               | Type                              | Description                                                                                                                                                                                                              |
-| :----------------- | :-------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `...configOptions` | [`ConfigOption`](#configoption)[] | to update the FQBN with. The config options are provided by the Arduino CLI via the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
+| Name               | Type                              | Description                                                                                                                                                                                                                              |
+| :----------------- | :-------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `...configOptions` | [`ConfigOption`](#configoption)[] | Configuration options to update the FQBN. These options are provided by the Arduino CLI through the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
 
 #### Returns
 
@@ -280,7 +280,7 @@ Adds the new config options and updates the existing ones. New entries are appen
 **`Example`**
 
 ```ts
-// creates a new FQBN instance by appending the custom board options to the end of the FQBN
+// Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
 const fqbn1 = new FQBN('arduino:samd:mkr1000');
 const fqbn2 = fqbn1.withConfigOptions({
   option: 'o1',
@@ -298,7 +298,7 @@ assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 **`Example`**
 
 ```ts
-// FQBNs are immutable
+// FQBNs are immutable.
 assert.strictEqual(fqbn1.options, undefined);
 assert.ok(fqbn2.options);
 ```
@@ -306,7 +306,7 @@ assert.ok(fqbn2.options);
 **`Example`**
 
 ```ts
-// never changes the position of existing config option keys, but updates the selected value
+// Always maintains the position of existing configuration option keys while updating the selected value.
 const fqbn3 = fqbn2.withConfigOptions(
   {
     option: 'o1',
@@ -353,7 +353,7 @@ assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
 
 Ƭ **ConfigOption**: `Object`
 
-Lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
+A lightweight representation of a custom board [config option](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption) provided by the Arduino CLI.
 
 #### Type declaration
 
@@ -402,13 +402,13 @@ the parsed FQBN or `undefined`.
 **`Example`**
 
 ```ts
-// valid FQBN
+// Valid FQBN.
 assert.ok(valid('arduino:samd:mkr1000') instanceof FQBN);
 ```
 
 **`Example`**
 
 ```ts
-// invalid FQBN
+// Invalid FQBN.
 assert.strictEqual(valid('invalid'), undefined);
 ```
