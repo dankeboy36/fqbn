@@ -280,8 +280,7 @@ Adds new configuration options and updates the existing ones. New entries are ap
 **`Example`**
 
 ```ts
-Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
-// creates a new FQBN instance by appending the custom board options to the end of the FQBN
+// Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
 const fqbn1 = new FQBN('arduino:samd:mkr1000');
 const fqbn2 = fqbn1.withConfigOptions({
   option: 'o1',

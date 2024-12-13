@@ -155,8 +155,8 @@ export class FQBN {
    *
    * @param configOptions Configuration options to update the FQBN. These options are provided by the Arduino CLI through the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command.
    *
-   * @example Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
-   * // creates a new FQBN instance by appending the custom board options to the end of the FQBN
+   * @example
+   * // Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
    * const fqbn1 = new FQBN('arduino:samd:mkr1000');
    * const fqbn2 = fqbn1.withConfigOptions({
    *   option: 'o1',
