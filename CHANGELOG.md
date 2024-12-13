@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/dankeboy36/fqbn/compare/1.1.2...1.1.3) (2024-12-13)
+
+
+### Bug Fixes
+
+* **docs:** improve API documentation ([#17](https://github.com/dankeboy36/fqbn/issues/17)) ([d22fdfc](https://github.com/dankeboy36/fqbn/commit/d22fdfcdf056dfdc4bc1a64854b1444c6ba04d8c))
+
 ## [1.1.2](https://github.com/dankeboy36/fqbn/compare/1.1.1...1.1.2) (2024-02-29)
 
 
