@@ -267,32 +267,34 @@ assert.strictEqual(
 Creates an immutable copy of the current Fully Qualified Board Name (FQBN) after updating the [custom board configuration options](https://arduino.github.io/arduino-cli/latest/rpc/commands/#configoption).
 Adds new configuration options and updates the existing ones. New entries are appended to the end of the FQBN, while the order of the existing options remains unchanged.
 
-@param: Configuration options to update the FQBN. These options are provided by the Arduino CLI through the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command.
+#### Parameters
 
-@example: Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
+| Name               | Type                              | Description                                                                                                                                                                                                                              |
+| :----------------- | :-------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `...configOptions` | [`ConfigOption`](#configoption)[] | Configuration options to update the FQBN. These options are provided by the Arduino CLI through the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
+
+#### Returns
+
+[`FQBN`](#classesfqbnmd)
+
+**`Example`**
+
+```ts
+Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
 // creates a new FQBN instance by appending the custom board options to the end of the FQBN
 const fqbn1 = new FQBN('arduino:samd:mkr1000');
 const fqbn2 = fqbn1.withConfigOptions({
-option: 'o1',
-values: [
-{ value: 'v1', selected: true },
-{ value: 'v2', selected: false },
-],
+  option: 'o1',
+  values: [
+    { value: 'v1', selected: true },
+    { value: 'v2', selected: false },
+  ],
 });
 assert.strictEqual(fqbn2.vendor, 'arduino');
 assert.strictEqual(fqbn2.arch, 'samd');
 assert.strictEqual(fqbn2.boardId, 'mkr1000');
 assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
-
-#### Parameters
-
-| Name               | Type                              |
-| :----------------- | :-------------------------------- |
-| `...configOptions` | [`ConfigOption`](#configoption)[] |
-
-#### Returns
-
-[`FQBN`](#classesfqbnmd)
+```
 
 **`Example`**
 
