@@ -8,6 +8,9 @@ describe('examples', function () {
   it('withConfigOptions', () =>
     assert.doesNotThrow(() => require('../__examples__/withConfigOptions')));
 
+  it('withConfigOptions', () =>
+    assert.doesNotThrow(() => require('../__examples__/withFQBN')));
+
   it('sanitize', () =>
     assert.doesNotThrow(() => require('../__examples__/sanitize')));
 

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { FQBN } from '../index';
 
-// creates a new FQBN instance by appending the custom board options to the end of the FQBN
+// Creates a new FQBN instance by appending the custom board options to the end of the original FQBN.
 const fqbn1 = new FQBN('arduino:samd:mkr1000');
 const fqbn2 = fqbn1.withConfigOptions({
   option: 'o1',
@@ -15,11 +15,11 @@ assert.strictEqual(fqbn2.arch, 'samd');
 assert.strictEqual(fqbn2.boardId, 'mkr1000');
 assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
 
-// FQBNs are immutable
+// FQBNs are immutable.
 assert.strictEqual(fqbn1.options, undefined);
 assert.ok(fqbn2.options);
 
-// never changes the position of existing config option keys, but updates the selected value
+// Always maintains the position of existing configuration option keys while updating the selected value.
 const fqbn3 = fqbn2.withConfigOptions(
   {
     option: 'o1',

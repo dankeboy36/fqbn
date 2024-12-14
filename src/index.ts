@@ -195,7 +195,7 @@ export class FQBN {
    * );
    * assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
    */
-  withConfigOptions(...configOptions: ConfigOption[]): FQBN {
+  withConfigOptions(...configOptions: readonly ConfigOption[]): FQBN {
     if (!configOptions.length) {
       return this;
     }
@@ -244,6 +244,66 @@ export class FQBN {
 
     const { vendor, arch, boardId } = this;
     return new FQBN(serialize(vendor, arch, boardId, options));
+  }
+
+  /**
+   * Creates an immutable copy of the current Fully Qualified Board Name (FQBN) after updating the custom board configuration options extracted from another FQBN.
+   * New configuration options are added, and existing ones are updated accordingly.
+   * New entries are appended to the end of the FQBN, while the order of the existing options remains unchanged.
+   * If a configuration option is present in the current FQBN but absent in the other, the configuration option will still remain in place.
+   * Note that errors will occur if the FQBNs do not match.
+   *
+   * @param fqbn the other {@link FQBN} to merge in
+   *
+   * @example
+   * // Creates a new FQBN instance by appending the custom board options extracted from the other FQBN to the end of the original FQBN.
+   * const fqbn1 = new FQBN('arduino:samd:mkr1000');
+   * const fqbn2 = fqbn1.withFQBN('arduino:samd:mkr1000:o1=v1');
+   * assert.strictEqual(fqbn2.vendor, 'arduino');
+   * assert.strictEqual(fqbn2.arch, 'samd');
+   * assert.strictEqual(fqbn2.boardId, 'mkr1000');
+   * assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
+   *
+   * @example
+   * // FQBNs are immutable.
+   * assert.strictEqual(fqbn1.options, undefined);
+   * assert.ok(fqbn2.options);
+   *
+   * @example
+   * // Always maintains the position of existing configuration option keys while updating the selected value.
+   * const fqbn3 = fqbn2.withFQBN('arduino:samd:mkr1000:o2=v2,o1=v2');
+   * assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
+   * assert.deepStrictEqual(fqbn3.toString(), 'arduino:samd:mkr1000:o1=v2,o2=v2');
+   *
+   * @example
+   * // Never removes config options.
+   * const fqbn4 = fqbn3.withFQBN('arduino:samd:mkr1000');
+   * assert.deepStrictEqual(fqbn4.options, { o1: 'v2', o2: 'v2' });
+   * assert.deepStrictEqual(fqbn4.toString(), 'arduino:samd:mkr1000:o1=v2,o2=v2');
+   *
+   * @example
+   * // Errors on mismatching FQBNs.
+   * assert.throws(() => fqbn4.withFQBN('arduino:avr:uno:o1=v3'));
+   */
+  withFQBN(fqbn: string): FQBN {
+    const other = new FQBN(fqbn);
+    if (!this.sanitize().equals(other.sanitize())) {
+      throw new ConfigOptionError(
+        fqbn,
+        `Mismatching FQBNs. this: ${this.toString()}, other: ${fqbn}`
+      );
+    }
+    return this.withConfigOptions(
+      ...Object.entries(other.options ?? {}).map(([option, value]) => ({
+        option,
+        values: [
+          {
+            value,
+            selected: true,
+          },
+        ],
+      }))
+    );
   }
 
   /**

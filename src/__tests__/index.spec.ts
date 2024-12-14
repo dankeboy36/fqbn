@@ -365,5 +365,35 @@ describe('fqbn', () => {
         assert.strictEqual(fqbn.options, undefined);
       });
     });
+
+    describe('withFQBN', () => {
+      it('should be noop when other has no config options', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        const actual = fqbn.withFQBN('a:b:c');
+        assert.ok(fqbn === actual);
+        assert.deepStrictEqual(actual.options, { o1: 'v1' });
+      });
+
+      it('should not remove config options', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        const actual = fqbn.withFQBN('a:b:c');
+        assert.ok(fqbn === actual);
+        assert.deepStrictEqual(actual.options, { o1: 'v1' });
+      });
+
+      it('should not change the order', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        const actual = fqbn.withFQBN('a:b:c:o2=v2,o1=v2');
+        assert.strictEqual(actual.toString(), 'a:b:c:o1=v2,o2=v2');
+      });
+
+      it('should error on mismatching FQBNs', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        assert.throws(
+          () => fqbn.withFQBN('a:b:x:o2=v2,o1=v2'),
+          /ConfigOptionError: .*/
+        );
+      });
+    });
   });
 });
