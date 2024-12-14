@@ -63,6 +63,7 @@ For a deeper understanding of how FQBN works, you should understand the
 - [sanitize](#sanitize)
 - [toString](#tostring)
 - [withConfigOptions](#withconfigoptions)
+- [withFQBN](#withfqbn)
 
 ## Constructors
 
@@ -269,9 +270,9 @@ Adds new configuration options and updates the existing ones. New entries are ap
 
 #### Parameters
 
-| Name               | Type                              | Description                                                                                                                                                                                                                              |
-| :----------------- | :-------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `...configOptions` | [`ConfigOption`](#configoption)[] | Configuration options to update the FQBN. These options are provided by the Arduino CLI through the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
+| Name               | Type                                       | Description                                                                                                                                                                                                                              |
+| :----------------- | :----------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `...configOptions` | readonly [`ConfigOption`](#configoption)[] | Configuration options to update the FQBN. These options are provided by the Arduino CLI through the gRPC equivalent of the [`board --details`](https://arduino.github.io/arduino-cli/latest/rpc/commands/#boarddetailsresponse) command. |
 
 #### Returns
 
@@ -324,6 +325,73 @@ const fqbn3 = fqbn2.withConfigOptions(
   }
 );
 assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
+```
+
+---
+
+### withFQBN
+
+▸ **withFQBN**(`fqbn`): [`FQBN`](#classesfqbnmd)
+
+Creates an immutable copy of the current Fully Qualified Board Name (FQBN) after updating the custom board configuration options extracted from another FQBN.
+New configuration options are added, and existing ones are updated accordingly.
+New entries are appended to the end of the FQBN, while the order of the existing options remains unchanged.
+If a configuration option is present in the current FQBN but absent in the other, the configuration option will still remain in place.
+Note that errors will occur if the FQBNs do not match.
+
+#### Parameters
+
+| Name   | Type     | Description                                  |
+| :----- | :------- | :------------------------------------------- |
+| `fqbn` | `string` | the other [FQBN](#classesfqbnmd) to merge in |
+
+#### Returns
+
+[`FQBN`](#classesfqbnmd)
+
+**`Example`**
+
+```ts
+// Creates a new FQBN instance by appending the custom board options extracted from the other FQBN to the end of the original FQBN.
+const fqbn1 = new FQBN('arduino:samd:mkr1000');
+const fqbn2 = fqbn1.withFQBN('arduino:samd:mkr1000:o1=v1');
+assert.strictEqual(fqbn2.vendor, 'arduino');
+assert.strictEqual(fqbn2.arch, 'samd');
+assert.strictEqual(fqbn2.boardId, 'mkr1000');
+assert.deepStrictEqual(fqbn2.options, { o1: 'v1' });
+```
+
+**`Example`**
+
+```ts
+// FQBNs are immutable.
+assert.strictEqual(fqbn1.options, undefined);
+assert.ok(fqbn2.options);
+```
+
+**`Example`**
+
+```ts
+// Always maintains the position of existing configuration option keys while updating the selected value.
+const fqbn3 = fqbn2.withFQBN('arduino:samd:mkr1000:o2=v2,o1=v2');
+assert.deepStrictEqual(fqbn3.options, { o1: 'v2', o2: 'v2' });
+assert.deepStrictEqual(fqbn3.toString(), 'arduino:samd:mkr1000:o1=v2,o2=v2');
+```
+
+**`Example`**
+
+```ts
+// Never removes config options.
+const fqbn4 = fqbn3.withFQBN('arduino:samd:mkr1000');
+assert.deepStrictEqual(fqbn4.options, { o1: 'v2', o2: 'v2' });
+assert.deepStrictEqual(fqbn4.toString(), 'arduino:samd:mkr1000:o1=v2,o2=v2');
+```
+
+**`Example`**
+
+```ts
+// Errors on mismatching FQBNs.
+assert.throws(() => fqbn4.withFQBN('arduino:avr:uno:o1=v3'));
 ```
 
 <a name="modulesmd"></a>
