@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/dankeboy36/fqbn/compare/1.1.3...1.2.0) (2024-12-14)
+
+
+### Features
+
+* add support for `withFQBN` ([#18](https://github.com/dankeboy36/fqbn/issues/18)) ([b0eb2ad](https://github.com/dankeboy36/fqbn/commit/b0eb2ad3c395c5b4456e255006a5f46408c61a02))
+
 ## [1.1.3](https://github.com/dankeboy36/fqbn/compare/1.1.2...1.1.3) (2024-12-13)
 
 
