@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/dankeboy36/fqbn/compare/1.2.0...1.3.0) (2024-12-16)
+
+
+### Features
+
+* add support for `setConfigOption` ([#20](https://github.com/dankeboy36/fqbn/issues/20)) ([626031e](https://github.com/dankeboy36/fqbn/commit/626031e66ef526238f04a69cb5c97050bfc43b39))
+
 # [1.2.0](https://github.com/dankeboy36/fqbn/compare/1.1.3...1.2.0) (2024-12-14)
 
 
