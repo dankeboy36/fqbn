@@ -395,5 +395,45 @@ describe('fqbn', () => {
         );
       });
     });
+
+    describe('setConfigOption', () => {
+      it('should be noop when setting the config value to the same', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        const actual = fqbn.setConfigOption('o1', 'v1');
+        assert.ok(fqbn === actual);
+      });
+
+      it('should set the config value', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        const actual = fqbn.setConfigOption('o1', 'v2');
+        assert.strictEqual(actual.toString(), 'a:b:c:o1=v2');
+      });
+
+      it('should not modify original FQBN', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        fqbn.setConfigOption('o1', 'v2');
+        assert.strictEqual(fqbn.toString(), 'a:b:c:o1=v1');
+      });
+
+      it('should keep the config options order', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1,o2=v2');
+        const actual = fqbn.setConfigOption('o1', 'v2');
+        assert.strictEqual(actual.toString(), 'a:b:c:o1=v2,o2=v2');
+      });
+
+      it('should insert when config value is absent and strict mode is false', () => {
+        const fqbn = new FQBN('a:b:c');
+        const actual = fqbn.setConfigOption('o1', 'v1');
+        assert.strictEqual(actual.toString(), 'a:b:c:o1=v1');
+      });
+
+      it('should error when config value is absent and strict mode is true', () => {
+        const fqbn = new FQBN('a:b:c');
+        assert.throws(
+          () => fqbn.setConfigOption('o1', 'v1', true),
+          /ConfigOptionError: .*/
+        );
+      });
+    });
   });
 });

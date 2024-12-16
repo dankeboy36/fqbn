@@ -247,6 +247,78 @@ export class FQBN {
   }
 
   /**
+   * Sets the configuration option to a specified value and returns a new FQBN instance.
+   *
+   * FQBNs are immutable, ensuring that existing configuration option keys are
+   * maintained in their original positions during the update. By default, it
+   * operates in non-strict mode, which allows for the insertion of new
+   * configuration values without error. If strict mode is enabled, any attempt
+   * to set a value for an absent configuration option will result in an error.
+   *
+   * @param option the config option identifier to update.
+   * @param value the selected configuration option value to set.
+   * @param [strict=false] Optional parameter to enable strict mode.
+   *
+   * @example
+   * // Sets the configuration option to a specified value.
+   * const fqbn1 = new FQBN('arduino:samd:mkr1000:o1=v1');
+   * const fqbn2 = fqbn1.setConfigOption('o1', 'v2');
+   * assert.strictEqual(fqbn2.vendor, 'arduino');
+   * assert.strictEqual(fqbn2.arch, 'samd');
+   * assert.strictEqual(fqbn2.boardId, 'mkr1000');
+   * assert.deepStrictEqual(fqbn2.options, { o1: 'v2' });
+   *
+   * @example
+   * // FQBNs are immutable.
+   * assert.deepStrictEqual(fqbn1.options, { o1: 'v1' });
+   * assert.deepStrictEqual(fqbn2.options, { o1: 'v2' });
+   *
+   * @example
+   * // Always maintains the position of existing configuration option keys while updating the value.
+   * assert.strictEqual(
+   *   new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2')
+   *     .setConfigOption('o1', 'v2')
+   *     .toString(),
+   *   'arduino:samd:mkr1000:o1=v2,o2=v2'
+   * );
+   *
+   * @example
+   * // Inserts new configuration values by default (non-strict mode).
+   * assert.strictEqual(
+   *   new FQBN('arduino:samd:mkr1000').setConfigOption('o1', 'v2').toString(),
+   *   'arduino:samd:mkr1000:o1=v2'
+   * );
+   *
+   * @example
+   * // In strict mode, it throws an error when setting absent configuration option values.
+   * assert.throws(() =>
+   *   new FQBN('arduino:samd:mkr1000').setConfigOption('o1', 'v2', true)
+   * );
+   */
+  setConfigOption(
+    option: ConfigOption['option'],
+    value: ConfigValue['value'],
+    strict = false
+  ): FQBN {
+    const options = this.options ?? {};
+    if (strict && !options[option]) {
+      throw new ConfigOptionError(
+        this.toString(),
+        `Config option ${option} must be present in the FQBN (${this.toString()}) when using strict mode.`
+      );
+    }
+    return this.withConfigOptions({
+      option,
+      values: [
+        {
+          value,
+          selected: true,
+        },
+      ],
+    });
+  }
+
+  /**
    * Creates an immutable copy of the current Fully Qualified Board Name (FQBN) after updating the custom board configuration options extracted from another FQBN.
    * New configuration options are added, and existing ones are updated accordingly.
    * New entries are appended to the end of the FQBN, while the order of the existing options remains unchanged.
