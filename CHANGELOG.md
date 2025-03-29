@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/dankeboy36/fqbn/compare/1.3.0...1.3.1) (2025-03-29)
+
+
+### Bug Fixes
+
+* **security:** audit dependencies `CVE-2024-12905` ([#21](https://github.com/dankeboy36/fqbn/issues/21)) ([bc8e60a](https://github.com/dankeboy36/fqbn/commit/bc8e60a3f36c05fb8a883854dfc52346be52c0c0))
+
 # [1.3.0](https://github.com/dankeboy36/fqbn/compare/1.2.0...1.3.0) (2024-12-16)
 
 
