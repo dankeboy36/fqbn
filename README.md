@@ -8,7 +8,7 @@ Arduino FQBN (Fully Qualified Board Name)
 
 > **ⓘ** [What's the FQBN string?](https://arduino.github.io/arduino-cli/dev/FAQ/#whats-the-fqbn-string)
 
-> **ⓘ** [This library is based on the official implementation of FQBN written in Go](https://pkg.go.dev/github.com/arduino/arduino-cli@v1.1.2-0.20241211160613-84fc413ad815/pkg/fqbn)
+> **ⓘ** [This library is based on the official implementation of FQBN written in Go](https://pkg.go.dev/github.com/arduino/arduino-cli/pkg/fqbn)
 
 ## Install
 
@@ -60,6 +60,7 @@ For a deeper understanding of how FQBN works, you should understand the
 ### Methods
 
 - [equals](#equals)
+- [limitConfigOptions](#limitconfigoptions)
 - [sanitize](#sanitize)
 - [setConfigOption](#setconfigoption)
 - [toString](#tostring)
@@ -175,6 +176,61 @@ assert.ok(
   new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2').equals(
     new FQBN('arduino:samd:mkr1000:o2=v2,o1=v1')
   )
+);
+```
+
+---
+
+### limitConfigOptions
+
+▸ **limitConfigOptions**(`maxOptions`): [`FQBN`](#classesfqbnmd)
+
+Returns an immutable copy of the FQBN limited to the first maxOptions configuration options.
+When the instance already satisfies the limit, the current instance is returned.
+
+#### Parameters
+
+| Name         | Type     | Description                                          |
+| :----------- | :------- | :--------------------------------------------------- |
+| `maxOptions` | `number` | The maximum number of configuration options to keep. |
+
+#### Returns
+
+[`FQBN`](#classesfqbnmd)
+
+The resulting [FQBN](#classesfqbnmd) instance.
+
+**`Example`**
+
+```ts
+// Keeps the first two config options.
+assert.strictEqual(
+  new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2,o3=v3')
+    .limitConfigOptions(2)
+    .toString(),
+  'arduino:samd:mkr1000:o1=v1,o2=v2'
+);
+```
+
+**`Example`**
+
+```ts
+// Limits the config options with a custom maximum.
+assert.strictEqual(
+  new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2,o3=v3')
+    .limitConfigOptions(3)
+    .toString(),
+  'arduino:samd:mkr1000:o1=v1,o2=v2,o3=v3'
+);
+```
+
+**`Example`**
+
+```ts
+// Removes all config options when the limit is set to zero.
+assert.strictEqual(
+  new FQBN('arduino:samd:mkr1000:o1=v1').limitConfigOptions(0).toString(),
+  'arduino:samd:mkr1000'
 );
 ```
 

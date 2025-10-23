@@ -206,6 +206,65 @@ describe('fqbn', () => {
       });
     });
 
+    describe('limitConfigOptions', () => {
+      it('should be noop when has no config options', () => {
+        const fqbn = new FQBN('a:b:c');
+        const actual = fqbn.limitConfigOptions(2);
+        assert.ok(fqbn === actual);
+      });
+
+      it('should be noop when options count is within the limit', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1,o2=v2');
+        const actual = fqbn.limitConfigOptions(3);
+        assert.ok(fqbn === actual);
+      });
+
+      it('should keep the first options up to the provided limit', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1,o2=v2,o3=v3');
+        const actual = fqbn.limitConfigOptions(2);
+        assert.ok(fqbn !== actual);
+        assert.strictEqual(
+          actual.toString(),
+          'a:b:c:o1=v1,o2=v2',
+          'should keep first options'
+        );
+        assert.strictEqual(Object.keys(actual.options ?? {}).length, 2);
+      });
+
+      it('should remove all options when limit is zero', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        const actual = fqbn.limitConfigOptions(0);
+        assert.ok(fqbn !== actual);
+        assert.strictEqual(actual.options, undefined);
+        assert.strictEqual(actual.toString(), 'a:b:c');
+      });
+
+      it('should throw when limit is negative', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        assert.throws(() => fqbn.limitConfigOptions(-1), RangeError);
+      });
+
+      it('should throw when limit is not an integer', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        assert.throws(() => fqbn.limitConfigOptions(1.5), RangeError);
+      });
+
+      it('should throw when limit is not a number', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        assert.throws(() => fqbn.limitConfigOptions(Number.NaN), RangeError);
+      });
+
+      it('should throw when limit is missing', () => {
+        const fqbn = new FQBN('a:b:c:o1=v1');
+        assert.throws(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error intentionally missing argument for runtime coverage
+          () => fqbn.limitConfigOptions(),
+          RangeError
+        );
+      });
+    });
+
     describe('equals', () => {
       it('should be true for this', () => {
         const fqbn = new FQBN('a:b:c');

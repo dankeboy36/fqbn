@@ -1,25 +1,19 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const examplesDirPath = path.join(__filename, '../../__examples__');
 
 describe('examples', function () {
   this.slow(1_000);
 
-  it('new', () => assert.doesNotThrow(() => require('../__examples__/new')));
-
-  it('withConfigOptions', () =>
-    assert.doesNotThrow(() => require('../__examples__/withConfigOptions')));
-
-  it('withConfigOptions', () =>
-    assert.doesNotThrow(() => require('../__examples__/withFQBN')));
-
-  it('sanitize', () =>
-    assert.doesNotThrow(() => require('../__examples__/sanitize')));
-
-  it('toString', () =>
-    assert.doesNotThrow(() => require('../__examples__/toString')));
-
-  it('equals', () =>
-    assert.doesNotThrow(() => require('../__examples__/equals')));
-
-  it('valid', () =>
-    assert.doesNotThrow(() => require('../__examples__/valid')));
+  fs.readdirSync(examplesDirPath, { withFileTypes: true })
+    .filter((dirent) => dirent.isFile())
+    .map((dirent) =>
+      it(path.basename(dirent.name, path.extname(dirent.name)), () =>
+        assert.doesNotThrow(() =>
+          require(path.join(examplesDirPath, dirent.name))
+        )
+      )
+    );
 });

@@ -403,6 +403,66 @@ export class FQBN {
   }
 
   /**
+   * Returns an immutable copy of the FQBN limited to the first {@link maxOptions} configuration options.
+   * When the instance already satisfies the limit, the current instance is returned.
+   *
+   * @param maxOptions The maximum number of configuration options to keep.
+   * @returns The resulting {@link FQBN} instance.
+   *
+   * @example
+   * // Keeps the first two config options.
+   * assert.strictEqual(
+   *   new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2,o3=v3')
+   *     .limitConfigOptions(2)
+   *     .toString(),
+   *   'arduino:samd:mkr1000:o1=v1,o2=v2'
+   * );
+   *
+   * @example
+   * // Limits the config options with a custom maximum.
+   * assert.strictEqual(
+   *   new FQBN('arduino:samd:mkr1000:o1=v1,o2=v2,o3=v3')
+   *     .limitConfigOptions(3)
+   *     .toString(),
+   *   'arduino:samd:mkr1000:o1=v1,o2=v2,o3=v3'
+   * );
+   *
+   * @example
+   * // Removes all config options when the limit is set to zero.
+   * assert.strictEqual(
+   *   new FQBN('arduino:samd:mkr1000:o1=v1').limitConfigOptions(0).toString(),
+   *   'arduino:samd:mkr1000'
+   * );
+   */
+  limitConfigOptions(maxOptions: number): FQBN {
+    if (!Number.isInteger(maxOptions) || maxOptions < 0) {
+      throw new RangeError('maxOptions must be a non-negative integer');
+    }
+    const { options } = this;
+    if (!options) {
+      return this;
+    }
+    if (maxOptions === 0) {
+      return this.sanitize();
+    }
+    const optionEntries = Object.entries(options);
+    if (optionEntries.length <= maxOptions) {
+      return this;
+    }
+
+    const limitedOptions: Record<string, string> = {};
+    for (const [index, [key, value]] of optionEntries.entries()) {
+      if (index >= maxOptions) {
+        break;
+      }
+      limitedOptions[key] = value;
+    }
+
+    const { vendor, arch, boardId } = this;
+    return new FQBN(serialize(vendor, arch, boardId, limitedOptions));
+  }
+
+  /**
    * Generates the string representation of the FQBN instance.
    *
    * @param skipOptions When set to `true`, any custom board configuration options will not be serialized. The default value is `false`.
