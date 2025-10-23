@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/dankeboy36/fqbn/compare/1.3.1...1.4.0) (2025-10-23)
+
+
+### Features
+
+* add limitConfigOptions ([#26](https://github.com/dankeboy36/fqbn/issues/26)) ([2c076e2](https://github.com/dankeboy36/fqbn/commit/2c076e2db3a905ce8e78aeb772c98047b9a2ac5a))
+
 ## [1.3.1](https://github.com/dankeboy36/fqbn/compare/1.3.0...1.3.1) (2025-03-29)
 
 
